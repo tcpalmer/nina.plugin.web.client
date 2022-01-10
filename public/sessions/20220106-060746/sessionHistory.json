@@ -60,7 +60,7 @@
           "started": "2022-01-06T06:07:49.8104861-05:00",
           "epochMilliseconds": 1641467269810,
           "duration": 1.0,
-          "filterName": "Ha",
+          "filterName": "OIII",
           "detectedStars": 1449,
           "HFR": 3.6311174531612163
         },
@@ -71,7 +71,7 @@
           "started": "2022-01-06T06:07:50.8329904-05:00",
           "epochMilliseconds": 1641467270832,
           "duration": 1.0,
-          "filterName": "Ha",
+          "filterName": "OIII",
           "detectedStars": 1069,
           "HFR": 5.1749016592162205
         },
@@ -104,7 +104,7 @@
           "started": "2022-01-06T06:07:53.9302255-05:00",
           "epochMilliseconds": 1641467273930,
           "duration": 1.0,
-          "filterName": "Ha",
+          "filterName": "SII",
           "detectedStars": 1453,
           "HFR": 4.6865101301514125
         },
@@ -115,7 +115,7 @@
           "started": "2022-01-06T06:07:54.9685541-05:00",
           "epochMilliseconds": 1641467274968,
           "duration": 1.0,
-          "filterName": "Ha",
+          "filterName": "SII",
           "detectedStars": 1073,
           "HFR": 3.2302943362064167
         },

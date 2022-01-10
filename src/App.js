@@ -1,6 +1,7 @@
 import React from 'react';
 import {LogLevel} from 'consola';
 import {SessionHistoryLoader} from './utilities/SessionHistoryLoader';
+import {Notification} from 'rsuite';
 import {getImageRecords} from './utilities/sessionUtils';
 import ImageListTable from './ImageListTable';
 
@@ -15,25 +16,30 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      urlPath: '/sessions/20220106-060746', // TODO: needs to be dynamic
       imageRecords: [],
+      error: null,
     };
 
-    this.loader = new SessionHistoryLoader('/sessions/20220106-060746/sessionHistory.json', true, this.sessionLoaded);
+    this.loader = new SessionHistoryLoader(this.state.urlPath + '/sessionHistory.json', true, this.sessionLoaded);
   }
 
   sessionLoaded = (response) => {
 
     if (response.error) {
-      // TODO: display some sort of error message
-      consola.warn('failed to load session history');
+      consola.error('failed to load session history');
+      this.setState({
+        error: 'failed to load session history',
+      });
       return;
     }
 
     if (!response.cacheUsed) {
       consola.success('loaded fresh session history');
-      consola.debug(response.data);
+      consola.trace(response.data);
       this.setState({
         imageRecords: getImageRecords(response.data),
+        error: null,
       });
     } else {
       consola.success('got cached session history');
@@ -52,9 +58,16 @@ class App extends React.Component {
 
   render() {
     consola.trace('App render');
+    const {urlPath, imageRecords, error} = this.state;
+
+    let notify;
+    if (error) {
+      notify = <Notification type="error" header="error">Failed to load session history</Notification>;
+    }
 
     return <div>
-      <ImageListTable data={this.state.imageRecords}/>
+      {notify}
+      <ImageListTable urlPath={urlPath} rows={imageRecords}/>
     </div>;
   }
 }

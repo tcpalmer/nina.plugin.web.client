@@ -55,7 +55,11 @@ module.exports = {
   module: {
     rules: [
       // JavaScript: Use Babel to transpile JavaScript files
-      {test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader']},
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
 
       // Styles: Inject CSS into the head with source maps
       {
