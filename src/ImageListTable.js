@@ -1,9 +1,6 @@
 import React from 'react';
 import {Cell, Column, HeaderCell, Table} from 'rsuite-table';
 import Placeholder from 'rsuite/Placeholder';
-import 'rsuite-table/dist/css/rsuite-table.css';
-//import 'rsuite/styles/index.less';
-//import './custom-theme.less';
 
 const consola = require('consola');
 
@@ -69,7 +66,7 @@ class ImageListTable extends React.Component {
         <Cell dataKey="index"/>
       </Column>
 
-      <Column width={100} resizable>
+      <Column width={100} sortable resizable>
         <HeaderCell>Started</HeaderCell>
         <Cell dataKey="started"/>
       </Column>

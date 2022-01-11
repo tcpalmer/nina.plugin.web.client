@@ -6,21 +6,18 @@
   "keywords": [
     "react",
     "reactjs",
-    "webpack",
-    "boilerplate",
-    "tailwind"
+    "webpack"
   ],
-  "license": "MIT",
+  "license": "Mozilla Public 2.0",
   "name": "nina.plugin.web.client",
   "version": "1.0.0",
-  "description": "NINA Web clientj",
+  "description": "NINA Web client",
   "dependencies": {
     "consola": "^2.15.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rsuite": "^5.4.4",
-    "rsuite-table": "^5.3.0",
-    "tailwindcss": "^2.2.7"
+    "rsuite-table": "^5.3.0"
   },
   "main": "index.js",
   "scripts": {
@@ -83,6 +80,8 @@
     "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.2.0",
     "node-sass": "^6.0.1",

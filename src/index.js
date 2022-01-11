@@ -1,5 +1,8 @@
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.scss';
+import {CustomProvider} from 'rsuite';
+import 'rsuite/styles/index.less';
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<CustomProvider theme="dark">
+  <App/>
+</CustomProvider>, document.getElementById('root'));
