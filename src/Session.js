@@ -1,4 +1,6 @@
 import React from 'react';
+import Target from './Target';
+import {PanelGroup} from 'rsuite';
 
 const consola = require('consola');
 
@@ -6,15 +8,22 @@ class Session extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 
-  // TODO: how can we tell if a Session is still live or not?
-
   render() {
+    const {sessionHistory, sessionPath} = this.props;
     consola.trace('Session render');
-    return <div></div>;
+
+    if (!sessionHistory) {
+      return null;
+    }
+
+    return <div>
+        {sessionHistory.targets.map(target => (
+            <Target key={target.id} target={target} sessionPath={sessionPath}/>
+        ))}
+    </div>;
   }
 
 }

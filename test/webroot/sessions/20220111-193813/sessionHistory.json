@@ -1319,6 +1319,35 @@
           "HFR": 2.2638692042778015
         }
       ]
+    },
+    {
+      "id": "a0d174a5-16af-43a3-939b-6d5416ce6674",
+      "name": "Heart Soul Mosaic Panel 2",
+      "startTime": "2022-01-11T22:11:13.0041024-05:00",
+      "imageRecords": [
+        {
+          "id": "da9ca5fc-a8fa-473b-a170-8ff5b0ac1f00",
+          "index": 1,
+          "fileName": "180.00sec_SII_gain_139_offset_21_1x1__0001.xisf",
+          "started": "2022-01-12T01:56:07.9248126-05:00",
+          "epochMilliseconds": 1641970567924,
+          "duration": 180.0,
+          "filterName": "SII",
+          "detectedStars": 430,
+          "HFR": 2.2638692042778015
+        },
+        {
+          "id": "da9ca5fc-a8fa-473b-a170-8ff5b0ac1f01",
+          "index": 2,
+          "fileName": "180.00sec_SII_gain_139_offset_21_1x1__0002.xisf",
+          "started": "2022-01-12T01:56:07.9248126-05:00",
+          "epochMilliseconds": 1641970567924,
+          "duration": 180.0,
+          "filterName": "SII",
+          "detectedStars": 530,
+          "HFR": 2.1234592042778015
+        }
+      ]
     }
   ]
 }

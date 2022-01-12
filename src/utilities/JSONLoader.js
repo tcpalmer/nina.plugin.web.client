@@ -12,31 +12,33 @@ const consola = require('consola');
  */
 export class JSONLoader {
 
-  static timeout = 10000;
-
   #url = null;
-  #periodic = false;
+  #loadedCallback = () => {};
+  #interval = 0;
+
   #timeoutID = null;
   #lastETag = null;
-  #loadedCallback = () => {};
 
-  constructor(url, periodic, loadedCallback) {
+  constructor(url, loadedCallback) {
     this.#url = url;
-    this.#periodic = periodic;
     this.#loadedCallback = loadedCallback;
   }
 
-  load() {
+  start() {
     this._load().then(r => {});
+  }
 
-    if (this.#periodic) {
-      this.#timeoutID = setTimeout(this.reload, JSONLoader.timeout);
-    }
+  setLoadInterval(interval) {
+    this.#interval = interval * 1000;
+    consola.trace('now reloading ' + this.#url + ' every ' + this.#interval + 's');
+
+    this.stop();
+    this.reload();
   }
 
   reload = () => {
+    this.#timeoutID = setTimeout(this.reload, this.#interval);
     this._load().then(r => {});
-    this.#timeoutID = setTimeout(this.reload, JSONLoader.timeout);
   };
 
   stop() {

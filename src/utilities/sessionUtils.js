@@ -1,7 +1,11 @@
 //
 
-export function getImageRecords(session) {
-  return session.targets[0].imageRecords.map((row) => ({...row, started: formatDateTime(row.started)}));
+export function getImageRecords(target) {
+  return target.imageRecords.map((row) => ({
+    ...row,
+    started: formatDateTime(row.started),
+    hfrText: Number.parseFloat(row.HFR).toPrecision(4),
+  }));
 }
 
 function formatDateTime(dts) {

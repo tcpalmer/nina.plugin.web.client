@@ -2,11 +2,11 @@
   "id": "61023dbc-0df5-4516-85b1-d6f417435c9b",
   "clientVersion": "0.1",
   "startTime": "2022-01-06T05:20:35.2371637-05:00",
-  "activeTargetId": "66f67b62-8125-4c7b-a1ba-1a79c47e7e4f",
+  "activeTargetId": null,
   "targets": [
     {
       "id": "66f67b62-8125-4c7b-a1ba-1a79c47e7e4f",
-      "name": "",
+      "name": "M42",
       "startTime": "2022-01-06T05:20:35.2381406-05:00",
       "imageRecords": [
         {

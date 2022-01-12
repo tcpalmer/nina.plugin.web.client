@@ -1,11 +1,11 @@
 import React from 'react';
 import {Cell, Column, HeaderCell, Table} from 'rsuite-table';
-import Placeholder from 'rsuite/Placeholder';
 import {Panel} from 'rsuite';
+import PlaceholderWrapper from './utilities/wrappers';
 
 const consola = require('consola');
 
-class ImageListTable extends React.Component {
+class ImageTable extends React.Component {
 
   constructor(props) {
     super(props);
@@ -45,32 +45,40 @@ class ImageListTable extends React.Component {
     });
   };
 
+  // TODO: I think I want to render each row as 2 columns:
+  //   a bigger thumbnail
+  //   a vertical list of the image props
+  //   BUT then you can't sort by stars, HFR, etc
+  //   UNLESS you have some higher level controls outside the table:
+  //     set the sort column
+  //     filter by filter
+
   render() {
     consola.trace('ImageListTable render');
     const {sortColumn, sortType} = this.state;
-    const {urlPath} = this.props;
+    const {sessionPath} = this.props;
+    const notLoaded = !this.props.rows || this.props.rows.length === 0;
 
-    if (!this.props.rows || this.props.rows.length === 0) {
-      return <Placeholder.Grid rows={5} columns={7} active={false}/>;
-    }
-
-    return <Panel header="Images" bordered bodyFill>
+    return <Panel header="Acquired Images" bordered bodyFill>
+      <PlaceholderWrapper enabled={notLoaded}/>
+      {!notLoaded &&
       <Table
-          autoHeight
+          height={600}
+          rowHeight={192}
           data={this.getSortedRows()}
           sortColumn={sortColumn}
           sortType={sortType}
           onSortColumn={this.handleSortColumn}
           loading={false}
       >
-        <Column width={100} sortable fixed resizable>
-          <HeaderCell>ID</HeaderCell>
-          <Cell dataKey="index"/>
+        <Column width={256}>
+          <HeaderCell>Image</HeaderCell>
+          <ThumbnailCell dataKey="id" sessionPath={sessionPath}/>
         </Column>
 
-        <Column width={100} sortable resizable>
-          <HeaderCell>Started</HeaderCell>
-          <Cell dataKey="started"/>
+        <Column width={60} sortable fixed resizable>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="index"/>
         </Column>
 
         <Column width={100} sortable resizable>
@@ -90,25 +98,23 @@ class ImageListTable extends React.Component {
 
         <Column width={100} sortable resizable>
           <HeaderCell>HFR</HeaderCell>
-          <Cell dataKey="HFR"/>
+          <Cell dataKey="hfrText"/>
         </Column>
 
-        <Column width={400} resizable>
-          <HeaderCell>Image</HeaderCell>
-          <ThumbnailCell dataKey="id" urlPath={urlPath}/>
+        <Column width={180} resizable>
+          <HeaderCell>Started At</HeaderCell>
+          <Cell dataKey="started"/>
         </Column>
 
-      </Table>
+      </Table>}
     </Panel>;
   }
 }
 
-const ThumbnailCell = ({urlPath, rowData, dataKey, ...props}) => (
+const ThumbnailCell = ({sessionPath, rowData, dataKey, ...props}) => (
     <Cell {...props} style={{padding: 0}}>
       <div
           style={{
-            width: 256,
-            height: 192,
             //background: '#f5f5f5',
             //: 20,
             //marginTop: 2,
@@ -116,9 +122,9 @@ const ThumbnailCell = ({urlPath, rowData, dataKey, ...props}) => (
             //display: 'inline-block'
           }}
       >
-        <img src={urlPath + '/thumbnails/' + rowData[dataKey] + '.jpg'} width="40" alt="thumbnail n/a"/>
+        <img src={sessionPath + '/thumbnails/' + rowData[dataKey] + '.jpg'} alt="thumbnail n/a"/>
       </div>
     </Cell>
 );
 
-export default ImageListTable;
+export default ImageTable;

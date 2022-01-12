@@ -2,11 +2,11 @@
   "id": "5c27c146-7ca6-4699-9575-98a01524eaca",
   "clientVersion": "0.5",
   "startTime": "2022-01-06T06:07:46.9129705-05:00",
-  "activeTargetId": "a3890773-eedc-4066-be58-409c5970914e",
+  "activeTargetId": null,
   "targets": [
     {
       "id": "a3890773-eedc-4066-be58-409c5970914e",
-      "name": "",
+      "name": "Andromeda",
       "startTime": "2022-01-06T06:07:46.9139907-05:00",
       "imageRecords": [
         {
