@@ -1,6 +1,7 @@
 import React from 'react';
 import {Cell, Column, HeaderCell, Table} from 'rsuite-table';
 import Placeholder from 'rsuite/Placeholder';
+import {Panel} from 'rsuite';
 
 const consola = require('consola');
 
@@ -53,50 +54,52 @@ class ImageListTable extends React.Component {
       return <Placeholder.Grid rows={5} columns={7} active={false}/>;
     }
 
-    return <Table
-        autoHeight
-        data={this.getSortedRows()}
-        sortColumn={sortColumn}
-        sortType={sortType}
-        onSortColumn={this.handleSortColumn}
-        loading={false}
-    >
-      <Column width={100} sortable fixed resizable>
-        <HeaderCell>ID</HeaderCell>
-        <Cell dataKey="index"/>
-      </Column>
+    return <Panel header="Images" bordered bodyFill>
+      <Table
+          autoHeight
+          data={this.getSortedRows()}
+          sortColumn={sortColumn}
+          sortType={sortType}
+          onSortColumn={this.handleSortColumn}
+          loading={false}
+      >
+        <Column width={100} sortable fixed resizable>
+          <HeaderCell>ID</HeaderCell>
+          <Cell dataKey="index"/>
+        </Column>
 
-      <Column width={100} sortable resizable>
-        <HeaderCell>Started</HeaderCell>
-        <Cell dataKey="started"/>
-      </Column>
+        <Column width={100} sortable resizable>
+          <HeaderCell>Started</HeaderCell>
+          <Cell dataKey="started"/>
+        </Column>
 
-      <Column width={100} sortable resizable>
-        <HeaderCell>Duration</HeaderCell>
-        <Cell dataKey="duration"/>
-      </Column>
+        <Column width={100} sortable resizable>
+          <HeaderCell>Duration</HeaderCell>
+          <Cell dataKey="duration"/>
+        </Column>
 
-      <Column width={100} sortable resizable>
-        <HeaderCell>Filter</HeaderCell>
-        <Cell dataKey="filterName"/>
-      </Column>
+        <Column width={100} sortable resizable>
+          <HeaderCell>Filter</HeaderCell>
+          <Cell dataKey="filterName"/>
+        </Column>
 
-      <Column width={100} sortable resizable>
-        <HeaderCell>Stars</HeaderCell>
-        <Cell dataKey="detectedStars"/>
-      </Column>
+        <Column width={100} sortable resizable>
+          <HeaderCell>Stars</HeaderCell>
+          <Cell dataKey="detectedStars"/>
+        </Column>
 
-      <Column width={100} sortable resizable>
-        <HeaderCell>HFR</HeaderCell>
-        <Cell dataKey="HFR"/>
-      </Column>
+        <Column width={100} sortable resizable>
+          <HeaderCell>HFR</HeaderCell>
+          <Cell dataKey="HFR"/>
+        </Column>
 
-      <Column width={400} resizable>
-        <HeaderCell>Image</HeaderCell>
-        <ThumbnailCell dataKey="id" urlPath={urlPath}/>
-      </Column>
+        <Column width={400} resizable>
+          <HeaderCell>Image</HeaderCell>
+          <ThumbnailCell dataKey="id" urlPath={urlPath}/>
+        </Column>
 
-    </Table>;
+      </Table>
+    </Panel>;
   }
 }
 

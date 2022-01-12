@@ -1,7 +1,7 @@
 const consola = require('consola');
 
 /**
- * SessionLoader will load (and optionally periodically reload) the requested session history JSON from the server.
+ * JSONLoader will load (and optionally periodically reload) the requested JSON from the server.
  *
  * The provided callback function is intended to update the state of a component and will be called with a
  * response containing the fetched object, a flag indicating whether the object was from the browser's cache
@@ -9,10 +9,8 @@ const consola = require('consola');
  *
  * Since fetch returns a 200 regardless of whether the object was found in the browser cache or not, we have to
  * store and compare the ETag of the response to determine cache status (i.e. we don't get a 304 here).
- *
- * TODO: DEPRECATE SessionHistoryLoader, USE JSONLoader
  */
-export class SessionHistoryLoader {
+export class JSONLoader {
 
   static timeout = 10000;
 
@@ -32,13 +30,13 @@ export class SessionHistoryLoader {
     this._load().then(r => {});
 
     if (this.#periodic) {
-      this.#timeoutID = setTimeout(this.reload, SessionHistoryLoader.timeout);
+      this.#timeoutID = setTimeout(this.reload, JSONLoader.timeout);
     }
   }
 
   reload = () => {
     this._load().then(r => {});
-    this.#timeoutID = setTimeout(this.reload, SessionHistoryLoader.timeout);
+    this.#timeoutID = setTimeout(this.reload, JSONLoader.timeout);
   };
 
   stop() {
@@ -57,7 +55,7 @@ export class SessionHistoryLoader {
       consola.trace(response);
 
       if (response.ok) {
-        const sessionHistory = await response.json();
+        const json = await response.json();
         let cacheUsed = false;
 
         if (response.headers.get('ETag') !== this.#lastETag) {
@@ -68,11 +66,11 @@ export class SessionHistoryLoader {
           cacheUsed = true;
         }
 
-        consola.trace(sessionHistory);
-        this.#loadedCallback({data: sessionHistory, cacheUsed: cacheUsed, error: false});
+        consola.trace(json);
+        this.#loadedCallback({data: json, cacheUsed: cacheUsed, error: false});
 
       } else {
-        consola.error('request failed to: ' + this.#url + ', response:');
+        consola.error('request failed to load: ' + this.#url + ', response:');
         consola.error(response);
         this.#loadedCallback({data: null, cacheUsed: false, error: true});
       }
