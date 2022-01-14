@@ -13,7 +13,7 @@ class ImageTable extends React.Component {
     this.state = {
       lang: navigator.language,
       sortColumn: 'index',
-      sortType: 'asc',
+      sortType: 'desc',
     };
   }
 
@@ -52,6 +52,7 @@ class ImageTable extends React.Component {
   //   UNLESS you have some higher level controls outside the table:
   //     set the sort column
   //     filter by filter
+  //   OR still have the columns - but can shove whatever into that vertical list?
 
   render() {
     consola.trace('ImageListTable render');
@@ -71,12 +72,12 @@ class ImageTable extends React.Component {
           onSortColumn={this.handleSortColumn}
           loading={false}
       >
-        <Column width={256}>
+        <Column width={256} fixed>
           <HeaderCell>Image</HeaderCell>
           <ThumbnailCell dataKey="id" sessionPath={sessionPath}/>
         </Column>
 
-        <Column width={60} sortable fixed resizable>
+        <Column width={60} sortable resizable>
           <HeaderCell>ID</HeaderCell>
           <Cell dataKey="index"/>
         </Column>

@@ -68,6 +68,7 @@ module.exports = {
           },
         ],
       },
+
       {
         test: /\.less$/i,
         use: [
@@ -76,6 +77,8 @@ module.exports = {
           'less-loader',
         ],
       },
+
+      {test: /\.svg$/, use: ['@svgr/webpack']},
 
       {test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource'},
 

@@ -13,7 +13,9 @@ export class AppState {
   #sessionHistoryChanged = () => {};
 
   #sessionListLoader = null;
+  #sessionListUrl = '';
   #sessionHistoryLoader = null;
+  #sessionHistoryUrl = '';
 
   constructor(sessionListChanged, sessionHistoryChanged) {
     this.#sessionListChanged = sessionListChanged;
@@ -21,7 +23,8 @@ export class AppState {
   }
 
   start() {
-    this.#sessionListLoader = new JSONLoader('/sessions/sessions.json', this.sessionListLoaded);
+    this.#sessionListUrl = '/sessions/sessions.json';
+    this.#sessionListLoader = new JSONLoader(this.#sessionListUrl, this.sessionListLoaded);
     this.#sessionListLoader.start();
     //this.#sessionListLoader.setLoadInterval(10); TODO: for now we're not reloading the session list but we should since it could change
   }
@@ -31,8 +34,8 @@ export class AppState {
       this.#sessionHistoryLoader.stop();
     }
 
-    this.#sessionHistoryLoader = new JSONLoader('/sessions/' + sessionKey + '/sessionHistory.json',
-        this.sessionHistoryLoaded);
+    this.#sessionHistoryUrl = '/sessions/' + sessionKey + '/sessionHistory.json';
+    this.#sessionHistoryLoader = new JSONLoader(this.#sessionHistoryUrl, this.sessionHistoryLoaded);
     this.#sessionHistoryLoader.start();
   }
 
@@ -44,15 +47,15 @@ export class AppState {
   sessionListLoaded = (response) => {
 
     if (response.error) {
-      consola.error('failed to load session list');
-      this.#sessionListChanged({data: null, error: true});
+      consola.error('failed to load session list: ' + this.#sessionListUrl);
+      this.#sessionListChanged({data: null, url: this.#sessionListUrl, error: true});
       return;
     }
 
     if (!response.cacheUsed) {
-      consola.success('loaded fresh session list');
+      consola.success('loaded fresh session list: ' + this.#sessionListUrl);
       consola.trace(response.data);
-      this.#sessionListChanged({data: response.data, error: false});
+      this.#sessionListChanged({data: response.data, url: this.#sessionListUrl, error: false});
       return;
     }
 
@@ -62,13 +65,13 @@ export class AppState {
   sessionHistoryLoaded = (response) => {
 
     if (response.error) {
-      consola.error('failed to load session history');
-      this.#sessionHistoryChanged({data: null, error: true});
+      consola.error('failed to load session history: ' + this.#sessionHistoryUrl);
+      this.#sessionHistoryChanged({data: null, url: this.#sessionHistoryUrl, error: true});
       return;
     }
 
     if (!response.cacheUsed) {
-      consola.success('loaded fresh session history');
+      consola.success('loaded fresh session history: ' + this.#sessionHistoryUrl);
       consola.trace(response.data);
       const sessionHistory = response.data;
 
@@ -79,7 +82,7 @@ export class AppState {
         consola.trace('session does not have an active target, reload disabled');
       }
 
-      this.#sessionHistoryChanged({data: sessionHistory, error: false});
+      this.#sessionHistoryChanged({data: sessionHistory, url: this.#sessionHistoryUrl, error: false});
       return;
     }
 
