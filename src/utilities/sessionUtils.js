@@ -1,5 +1,3 @@
-//
-
 import {formatDateTime} from './utils';
 
 export function getImageRecords(target) {
@@ -9,3 +7,13 @@ export function getImageRecords(target) {
     hfrText: Number.parseFloat(row.HFR).toPrecision(4),
   }));
 }
+
+export function getThumbnailSize(sessionPath, item, notify) {
+  const img = new Image();
+  img.onload = function() {
+    notify({width: this.width, height: this.height});
+  };
+
+  img.src = sessionPath + '/thumbnails/' + item.id + '.jpg';
+}
+

@@ -21,7 +21,7 @@ class ImageTable extends React.Component {
     const {sortColumn, sortType} = this.state;
     const {rows} = this.props;
 
-    consola.trace('ImageListTable getSortedRows: ' + rows.length + ' rows');
+    consola.trace('ImageTable: getSortedRows: ' + rows.length + ' rows');
 
     if (sortColumn && sortType) {
       return rows.sort((a, b) => {
@@ -45,36 +45,30 @@ class ImageTable extends React.Component {
     });
   };
 
-  // TODO: I think I want to render each row as 2 columns:
-  //   a bigger thumbnail
-  //   a vertical list of the image props
-  //   BUT then you can't sort by stars, HFR, etc
-  //   UNLESS you have some higher level controls outside the table:
-  //     set the sort column
-  //     filter by filter
-  //   OR still have the columns - but can shove whatever into that vertical list?
+  // TODO: add filter by filter
 
   render() {
-    consola.trace('ImageListTable render');
     const {sortColumn, sortType} = this.state;
-    const {sessionPath} = this.props;
-    const notLoaded = !this.props.rows || this.props.rows.length === 0;
+    const {sessionPath, rows, size} = this.props;
+    const loaded = rows && rows.length > 0;
+
+    consola.trace('ImageTable: render, row/col: ' + JSON.stringify(size));
 
     return <Panel header="Acquired Images" bordered bodyFill>
-      <PlaceholderWrapper enabled={notLoaded}/>
-      {!notLoaded &&
+      <PlaceholderWrapper enabled={!loaded}/>
+      {loaded &&
       <Table
           height={600}
-          rowHeight={192}
+          rowHeight={size.height}
           data={this.getSortedRows()}
           sortColumn={sortColumn}
           sortType={sortType}
           onSortColumn={this.handleSortColumn}
           loading={false}
       >
-        <Column width={256} fixed>
+        <Column width={size.width} fixed>
           <HeaderCell>Image</HeaderCell>
-          <ThumbnailCell dataKey="id" sessionPath={sessionPath}/>
+          <ThumbnailCell dataKey="id" sessionPath={sessionPath} thumbnailSize={size}/>
         </Column>
 
         <Column width={60} sortable resizable>
@@ -112,18 +106,10 @@ class ImageTable extends React.Component {
   }
 }
 
-const ThumbnailCell = ({sessionPath, rowData, dataKey, ...props}) => (
+const ThumbnailCell = ({sessionPath, thumbnailSize, rowData, dataKey, ...props}) => (
     <Cell {...props} style={{padding: 0}}>
-      <div
-          style={{
-            //background: '#f5f5f5',
-            //: 20,
-            //marginTop: 2,
-            //overflow: 'hidden',
-            //display: 'inline-block'
-          }}
-      >
-        <img src={sessionPath + '/thumbnails/' + rowData[dataKey] + '.jpg'} alt="thumbnail n/a"/>
+      <div>
+        <img src={sessionPath + '/thumbnails/' + rowData[dataKey] + '.jpg'} alt="thumbnail n/a" width={thumbnailSize.width} height={thumbnailSize.height}/>
       </div>
     </Cell>
 );

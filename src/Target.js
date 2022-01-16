@@ -1,7 +1,8 @@
 import React from 'react';
 import ImageTable from './ImageTable';
-import {getImageRecords} from './utilities/sessionUtils';
+import {getImageRecords, getThumbnailSize} from './utilities/sessionUtils';
 import {Panel} from 'rsuite';
+import PlaceholderWrapper from './utilities/wrappers';
 
 const consola = require('consola');
 
@@ -9,16 +10,72 @@ class Target extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.state = {
+      ready: false,
+      rows: [],
+      // TODO: might need to tune this some more, add another breakpoint
+      mq992: window.matchMedia('(min-width: 992px)'),
+    };
+  }
+
+  componentDidMount() {
+    const {target, sessionPath} = this.props;
+    if (target && sessionPath) {
+      this.startPrep(target, sessionPath);
+    }
+
+    this.state.mq992.onchange = (event) => {
+      this.setState({
+        displaySize: this.getDisplaySize(this.state.thumbnailSize),
+      });
+    };
+  }
+
+  componentWillUnmount() {
+    this.state.mq992.onchange = null;
+  }
+
+  startPrep(target, sessionPath) {
+
+    if (this.state.ready) {
+      return true;
+    }
+
+    const rows = getImageRecords(target);
+    if (rows && rows.length > 0) {
+      this.state.rows = rows;
+
+      getThumbnailSize(sessionPath, rows[0], (thumbnailSize) => {
+        const displaySize = this.getDisplaySize(thumbnailSize);
+        this.setState({
+          thumbnailSize: thumbnailSize,
+          displaySize: displaySize,
+          ready: true,
+        });
+      });
+    }
+
+    return false;
+  }
+
+  getDisplaySize(thumbnailSize) {
+    return this.state.mq992.matches ?
+        {width: thumbnailSize.width, height: thumbnailSize.height} :
+        {width: thumbnailSize.width / 2, height: thumbnailSize.height / 2};
   }
 
   render() {
-    consola.trace('Target render');
     const {target, sessionPath} = this.props;
-    const rows = getImageRecords(target);
+    const {ready, rows, displaySize} = this.state;
+
+    consola.trace('Target: render, ready=' + ready);
 
     return <Panel header={'Target: ' + target.name} collapsible bordered>
-      <ImageTable sessionPath={sessionPath} rows={rows}/>
+      <PlaceholderWrapper enabled={!ready}/>
+      {ready &&
+      <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize}/>
+      }
     </Panel>;
   }
 }

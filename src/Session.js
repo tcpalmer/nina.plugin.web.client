@@ -1,6 +1,6 @@
 import React from 'react';
 import Target from './Target';
-import {PanelGroup} from 'rsuite';
+import {Badge, Message} from 'rsuite';
 
 const consola = require('consola');
 
@@ -12,17 +12,22 @@ class Session extends React.Component {
   }
 
   render() {
-    const {sessionHistory, sessionPath} = this.props;
-    consola.trace('Session render');
+    const {sessionHistory, sessionName, sessionPath} = this.props;
+    consola.trace('Session: render');
 
     if (!sessionHistory) {
       return null;
     }
 
+    const badge = sessionHistory.activeTargetId ? 'live' : false;
+
     return <div>
-        {sessionHistory.targets.map(target => (
-            <Target key={target.id} target={target} sessionPath={sessionPath}/>
-        ))}
+      <Badge content={badge}>
+        <Message className="session-name">Selected Session: {sessionName}</Message>
+      </Badge>
+      {sessionHistory.targets.map(target => (
+          <Target key={target.id} target={target} sessionPath={sessionPath}/>
+      ))}
     </div>;
   }
 

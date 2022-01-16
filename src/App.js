@@ -7,7 +7,6 @@ import {AppState} from './utilities/AppState';
 import Console from './utilities/Console';
 import {formatDateTime} from './utilities/utils';
 
-
 const consola = require('consola');
 consola.level = LogLevel.Trace;
 
@@ -26,6 +25,7 @@ class App extends React.Component {
       pendingSelectedSession: null,
       sessionHistory: null,
       consoleOpen: false,
+      consoleButtonClass: 'console-button-info',
       consoleMessages: [],
     };
   }
@@ -49,7 +49,7 @@ class App extends React.Component {
       return;
     }
 
-    this.addConsoleMessage('warn', 'loaded list of all sessions: ' + response.url);
+    this.addConsoleMessage('info', 'loaded list of all sessions: ' + response.url);
     this.setState({
       sessionList: response.data.sessions,
     });
@@ -70,19 +70,17 @@ class App extends React.Component {
   };
 
   addConsoleMessage(type, message) {
-    // TODO: if type=warn, set Show Console button to yellow, error->red, info->clear to default
     const date = formatDateTime(new Date());
     const copy = [{type, date, message}, ...this.state.consoleMessages];
     this.setState({
       consoleMessages: copy,
+      consoleButtonClass: 'console-button-' + type,
     });
   }
 
   setConsoleOpen(state) {
     this.setState({consoleOpen: state});
   }
-
-  // TODO: we need to display the session key in some text area below dropdown divider
 
   selectSession = (eventKey) => {
     consola.debug('selected session: ' + eventKey);
@@ -95,29 +93,49 @@ class App extends React.Component {
     }
   };
 
+  getConsoleSize() {
+    if (window.matchMedia('(min-width: 992px)').matches) {
+      return 'md';
+    }
+
+    return window.matchMedia('(min-width: 680px)').matches ? 'sm' : 'xs';
+  }
+
   render() {
-    consola.trace('App render');
-    const {sessionList, sessionHistory, selectedSession, consoleMessages, consoleOpen} = this.state;
+    consola.trace('App: render');
+    const {sessionList, sessionHistory, selectedSession, consoleMessages, consoleOpen, consoleButtonClass} = this.state;
     const sessionPath = '/sessions/' + selectedSession;
+
+    // Grid: provides 24 horizontal sections for columns to span into (ala Bootstrap)
+    //   xs: The number of columns you wish to span for Extra small devices Phones (< 480px)
+    //   sm: The number of columns you wish to span for Small devices Tablets (≥ 480px)
+    //   md: The number of columns you wish to span for Medium devices Desktops (≥ 992px)
+    //   lg: The number of columns you wish to span for Large devices Desktops (≥ 1200px)
+    //
+    // Each column also has the following modifiers:
+    //   *Hidden: hide column
+    //   *Offset: move columns to the right
+    //   *Pull: change the order to the left
+    //   *Push: change the order to the right
 
     return <div style={{margin: 20}}>
       <React.StrictMode>
 
         <Grid fluid>
           <Row>
-            <Col xs={2}><img src="assets/icons/logo_nina.png" width={30} height={30} alt="NINA"/></Col>
-            <Col xs={4} style={{fontSize: 'x-large'}}>NINA Session Status</Col>
+            <Col><img src="assets/icons/logo_nina.png" width={30} height={30} alt="NINA"/></Col>
+            <Col className="header-text">NINA Session Status</Col>
           </Row>
           <Divider/>
           <Row>
-            <Col xs={2}>
+            <Col>
               <Dropdown title="Select Session" activeKey={selectedSession} onSelect={this.selectSession}>
                 {sessionList.map(session => (
                     <Dropdown.Item eventKey={session.key} key={session.key}>{session.display}</Dropdown.Item>
                 ))}
               </Dropdown>
             </Col>
-            <Col xs={8}><Button onClick={() => this.setConsoleOpen(true)}>Show Console</Button>
+            <Col><Button onClick={() => this.setConsoleOpen(true)} className={consoleButtonClass}>Show Console</Button>
             </Col>
           </Row>
         </Grid>
@@ -125,9 +143,9 @@ class App extends React.Component {
         <Divider/>
 
         <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
-        <Session sessionHistory={sessionHistory} sessionPath={sessionPath}/>
+        <Session sessionHistory={sessionHistory} sessionName={selectedSession} sessionPath={sessionPath}/>
 
-        <Drawer size={'lg'} open={consoleOpen} onClose={() => this.setConsoleOpen(false)}>
+        <Drawer size={this.getConsoleSize()} open={consoleOpen} onClose={() => this.setConsoleOpen(false)}>
           <Drawer.Body>
             <Console messages={consoleMessages}/>
           </Drawer.Body>
