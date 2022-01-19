@@ -1,6 +1,5 @@
 import React from 'react';
 import {List} from 'rsuite';
-import {formatDateTime} from './utils';
 
 const consola = require('consola');
 
@@ -11,10 +10,6 @@ class Console extends React.Component {
     this.state = {};
   }
 
-  format(date, message) {
-    return formatDateTime(date) + ' ' + message;
-  }
-
   render() {
     const {messages} = this.props;
 
@@ -23,11 +18,12 @@ class Console extends React.Component {
     return <List size="sm" bordered>
       {messages.map((item, index) => (
           <List.Item key={index} index={index} className={'console-item-' + item.type}>
-            {this.format(item.date, item.message)}
+            {item.date + ' ' + item.message}
           </List.Item>
       ))}
     </List>;
   }
+
 }
 
 export default Console;

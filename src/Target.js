@@ -45,6 +45,7 @@ class Target extends React.Component {
     const rows = getImageRecords(target);
     if (rows && rows.length > 0) {
       this.state.rows = rows;
+      consola.trace('Target: prep, rows: ' + rows.length);
 
       getThumbnailSize(sessionPath, rows[0], (thumbnailSize) => {
         const displaySize = this.getDisplaySize(thumbnailSize);
@@ -66,12 +67,12 @@ class Target extends React.Component {
   }
 
   render() {
-    const {target, sessionPath} = this.props;
+    const {active, target, sessionPath} = this.props;
     const {ready, rows, displaySize} = this.state;
 
     consola.trace('Target: render, ready=' + ready);
 
-    return <Panel header={'Target: ' + target.name} collapsible bordered>
+    return <Panel header={'Target: ' + target.name} collapsible bordered defaultExpanded={active}>
       <PlaceholderWrapper enabled={!ready}/>
       {ready &&
       <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize}/>

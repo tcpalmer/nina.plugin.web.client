@@ -45,7 +45,9 @@ class ImageTable extends React.Component {
     });
   };
 
-  // TODO: add filter by filter
+  // TODO: add filter list by image filter
+  // TODO: show how long ago the most recent image was created in the header
+  // TODO: not sure I like the row highlighting
 
   render() {
     const {sortColumn, sortType} = this.state;

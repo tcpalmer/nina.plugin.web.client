@@ -6,11 +6,10 @@ import Session from './Session';
 import {AppState} from './utilities/AppState';
 import Console from './utilities/Console';
 import {formatDateTime} from './utilities/utils';
+const logo = require('./assets/icons/logo_nina.png');
 
 const consola = require('consola');
 consola.level = LogLevel.Trace;
-
-// TODO: at some point, use @media in CSS to pseudo-support responsive
 
 class App extends React.Component {
 
@@ -45,7 +44,7 @@ class App extends React.Component {
   sessionListChanged = (response) => {
 
     if (response.error) {
-      this.addConsoleMessage('error', 'Failed to load list of sessions.  Is NINA running?');
+      this.addConsoleMessage('error', 'Failed to load list of sessions.  Is NINA running and plugin enabled?');
       return;
     }
 
@@ -58,7 +57,7 @@ class App extends React.Component {
   sessionHistoryChanged = (response) => {
 
     if (response.error) {
-      this.addConsoleMessage('error', 'Failed to load history for session.  Is NINA running?');
+      this.addConsoleMessage('error', 'Failed to load history for session.  Is NINA running and plugin enabled?');
       return;
     }
 
@@ -106,27 +105,19 @@ class App extends React.Component {
     const {sessionList, sessionHistory, selectedSession, consoleMessages, consoleOpen, consoleButtonClass} = this.state;
     const sessionPath = '/sessions/' + selectedSession;
 
-    // Grid: provides 24 horizontal sections for columns to span into (ala Bootstrap)
-    //   xs: The number of columns you wish to span for Extra small devices Phones (< 480px)
-    //   sm: The number of columns you wish to span for Small devices Tablets (≥ 480px)
-    //   md: The number of columns you wish to span for Medium devices Desktops (≥ 992px)
-    //   lg: The number of columns you wish to span for Large devices Desktops (≥ 1200px)
-    //
-    // Each column also has the following modifiers:
-    //   *Hidden: hide column
-    //   *Offset: move columns to the right
-    //   *Pull: change the order to the left
-    //   *Push: change the order to the right
+    consola.error('PUBLIC: ' + window.__webpack_public_path__);
 
     return <div style={{margin: 20}}>
       <React.StrictMode>
 
         <Grid fluid>
           <Row>
-            <Col><img src="assets/icons/logo_nina.png" width={30} height={30} alt="NINA"/></Col>
+            <Col><img src={logo} width={30} height={30} alt="NINA"/></Col>
             <Col className="header-text">NINA Session Status</Col>
           </Row>
+
           <Divider/>
+
           <Row>
             <Col>
               <Dropdown title="Select Session" activeKey={selectedSession} onSelect={this.selectSession}>
@@ -143,7 +134,7 @@ class App extends React.Component {
         <Divider/>
 
         <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
-        <Session sessionHistory={sessionHistory} sessionName={selectedSession} sessionPath={sessionPath}/>
+        <Session key={sessionHistory ? sessionHistory.id : null} sessionHistory={sessionHistory} sessionName={selectedSession} sessionPath={sessionPath}/>
 
         <Drawer size={this.getConsoleSize()} open={consoleOpen} onClose={() => this.setConsoleOpen(false)}>
           <Drawer.Body>

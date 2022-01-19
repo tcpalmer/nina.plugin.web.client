@@ -2,10 +2,13 @@ const paths = require('./paths');
 const Dotenv = require('dotenv-webpack');
 const {merge} = require('webpack-merge');
 const common = require('./webpack.common.js');
+const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+var ZipPlugin = require('zip-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
@@ -13,7 +16,7 @@ module.exports = merge(common, {
 
   output: {
     path: paths.build,
-    publicPath: '/',
+    publicPath: '/dist/',
     filename: 'js/[name].[contenthash].bundle.js',
   },
 
@@ -26,6 +29,16 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: 'styles/[name].[contenthash].css',
       chunkFilename: '[id].css',
+    }),
+
+    new CopyPlugin({
+      patterns: [
+        {from: path.resolve(paths.src, 'webClientVersion.json'), to: paths.build},
+      ],
+    }),
+
+    new ZipPlugin({
+      filename: 'nina-web-client.zip',
     }),
   ],
 

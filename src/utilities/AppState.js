@@ -26,7 +26,7 @@ export class AppState {
     this.#sessionListUrl = '/sessions/sessions.json';
     this.#sessionListLoader = new JSONLoader(this.#sessionListUrl, this.sessionListLoaded);
     this.#sessionListLoader.start();
-    //this.#sessionListLoader.setLoadInterval(10); TODO: for now we're not reloading the session list but we should since it could change
+    this.#sessionListLoader.setLoadInterval(10);
   }
 
   startSessionHistoryLoad(sessionKey) {

@@ -8,8 +8,19 @@ class Session extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {count: 1};
   }
+
+  getTargetKey(target) {
+    return target.id + '_' + Math.random().toString();
+  }
+
+  isActive(target) {
+    return this.props.sessionHistory.activeTargetId === target.id;
+  }
+
+  // TODO: possible to show loading spinner when a new session is loading?
+  //   after adding the auto-expand for active session, looks like you get an undesired re-render when switching
 
   render() {
     const {sessionHistory, sessionName, sessionPath} = this.props;
@@ -26,7 +37,7 @@ class Session extends React.Component {
         <Message className="session-name">Selected Session: {sessionName}</Message>
       </Badge>
       {sessionHistory.targets.map(target => (
-          <Target key={target.id} target={target} sessionPath={sessionPath}/>
+          <Target key={this.getTargetKey(target)} active={this.isActive(target)} target={target} sessionPath={sessionPath}/>
       ))}
     </div>;
   }
