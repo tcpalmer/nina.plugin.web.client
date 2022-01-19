@@ -2,45 +2,63 @@ const paths = require('./paths');
 const Dotenv = require('dotenv-webpack');
 const {merge} = require('webpack-merge');
 const common = require('./webpack.common.js');
+const path = require('path');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+var ZipPlugin = require('zip-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
   devtool: false,
+
   output: {
     path: paths.build,
-    publicPath: '/',
+    publicPath: '/dist/',
     filename: 'js/[name].[contenthash].bundle.js',
   },
+
   plugins: [
+
     new Dotenv({
       path: './.env.production',
     }),
-    // Extracts CSS into separate files
-    // Note: style-loader is for development, MiniCssExtractPlugin is for production
+
     new MiniCssExtractPlugin({
       filename: 'styles/[name].[contenthash].css',
       chunkFilename: '[id].css',
     }),
+
+    new CopyPlugin({
+      patterns: [
+        {from: path.resolve(paths.src, 'webClientVersion.json'), to: paths.build},
+      ],
+    }),
+
+    new ZipPlugin({
+      filename: 'nina-web-client.zip',
+    }),
   ],
+
   module: {
     rules: [],
   },
+
   optimization: {
     minimize: true,
     minimizer: [
-      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
       `...`,
       new TerserPlugin(),
       new CssMinimizerPlugin(),
     ],
   },
+
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000,
   },
+
 });

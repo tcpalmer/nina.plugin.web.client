@@ -1,12 +1,19 @@
-//
+import {formatDateTime} from './utils';
 
-export function getImageRecords(session) {
-  return session.targets[0].imageRecords.map((row) => ({...row, started: formatDateTime(row.started)}));
+export function getImageRecords(target) {
+  return target.imageRecords.map((row) => ({
+    ...row,
+    started: formatDateTime(row.started),
+    hfrText: Number.parseFloat(row.HFR).toPrecision(4),
+  }));
 }
 
-function formatDateTime(dts) {
-  const dataTime = new Date(dts);
-  const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
-  const timeOptions = {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false};
-  return dataTime.toLocaleTimeString([], timeOptions) + ' ' + dataTime.toLocaleDateString([], dateOptions);
+export function getThumbnailSize(sessionPath, item, notify) {
+  const img = new Image();
+  img.onload = function() {
+    notify({width: this.width, height: this.height});
+  };
+
+  img.src = sessionPath + '/thumbnails/' + item.id + '.jpg';
 }
+

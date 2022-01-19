@@ -1,0 +1,81 @@
+// rsuite Grid uses the following breakpoints:
+//   xs: Extra small devices Phones (< 480px)
+//   sm: Small devices Tablets (≥ 480px)
+//   md: Medium devices Desktops (≥ 992px)
+//   Large devices Desktops (≥ 1200px)
+
+// min-width: browser is >= value
+// max-width: browser is <= value
+
+@media (max-width: 479px) {
+  .ui-text-large {
+    font-size: small;
+  }
+}
+
+@media (min-width: 480px) {
+  .ui-text-large {
+    font-size: medium;
+  }
+}
+
+@media (min-width: 992px) {
+  .ui-text-large {
+    font-size: large;
+  }
+}
+
+.header-text {
+  &:extend(.ui-text-large);
+}
+
+.session-name {
+  &:extend(.ui-text-large);
+  background-color: #333;
+}
+
+.rs-divider-horizontal {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+// console styles //
+
+.console-item {
+  font-family: monospace;
+  font-size: small;
+  color: beige;
+}
+
+.console-item-info {
+  &:extend(.console-item);
+}
+
+.console-item-warn {
+  &:extend(.console-item);
+  color: gold;
+}
+
+.console-item-error {
+  &:extend(.console-item);
+  color: red;
+}
+
+.console-item-debug {
+  &:extend(.console-item);
+  color: burlywood;
+  font-style: italic;
+}
+
+.console-button-info {
+}
+
+.console-button-warn {
+  color: gold;
+}
+
+.console-button-error {
+  color: red;
+}
+
+// //

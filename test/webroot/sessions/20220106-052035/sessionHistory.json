@@ -1,0 +1,135 @@
+{
+  "id": "61023dbc-0df5-4516-85b1-d6f417435c9b",
+  "clientVersion": "0.1",
+  "startTime": "2022-01-06T05:20:35.2371637-05:00",
+  "activeTargetId": null,
+  "targets": [
+    {
+      "id": "66f67b62-8125-4c7b-a1ba-1a79c47e7e4f",
+      "name": "M42",
+      "startTime": "2022-01-06T05:20:35.2381406-05:00",
+      "imageRecords": [
+        {
+          "id": "3bdbea61-f9f2-45e8-aa04-a271f6a5095c",
+          "fileName": "2022-01-06_05-20-33___1.00s_0000.fits",
+          "started": "2022-01-06T05:20:33.910739-05:00",
+          "epochMilliseconds": 1641464433910,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1254,
+          "HFR": 4.6724872885609452
+        },
+        {
+          "id": "b5ceca05-e538-40c8-93a7-6c9d28e0ff03",
+          "fileName": "2022-01-06_05-20-34___1.00s_0001.fits",
+          "started": "2022-01-06T05:20:34.995605-05:00",
+          "epochMilliseconds": 1641464434995,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1376,
+          "HFR": 3.8963584624679566
+        },
+        {
+          "id": "5f4b2a97-9027-43b6-9278-0b0fc043f2cf",
+          "fileName": "2022-01-06_05-20-36___1.00s_0002.fits",
+          "started": "2022-01-06T05:20:36.0250999-05:00",
+          "epochMilliseconds": 1641464436025,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1519,
+          "HFR": 3.32039852129314
+        },
+        {
+          "id": "a9c03c19-671c-4b3e-ab33-a93e5cabd7db",
+          "fileName": "2022-01-06_05-20-37___1.00s_0003.fits",
+          "started": "2022-01-06T05:20:37.0605744-05:00",
+          "epochMilliseconds": 1641464437060,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1976,
+          "HFR": 3.0680205189008363
+        },
+        {
+          "id": "cf8fd5fd-74c2-4c7f-8966-51953702d61e",
+          "fileName": "2022-01-06_05-20-38___1.00s_0004.fits",
+          "started": "2022-01-06T05:20:38.1057507-05:00",
+          "epochMilliseconds": 1641464438105,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1119,
+          "HFR": 5.49206057772602
+        },
+        {
+          "id": "20b96382-283c-4554-a1bf-a5de63aea3c9",
+          "fileName": "2022-01-06_05-20-39___1.00s_0005.fits",
+          "started": "2022-01-06T05:20:39.1307236-05:00",
+          "epochMilliseconds": 1641464439130,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1740,
+          "HFR": 4.0358447837810241
+        },
+        {
+          "id": "091e9e6d-0f19-440d-a8ae-993b34c6e50d",
+          "fileName": "2022-01-06_05-20-40___1.00s_0006.fits",
+          "started": "2022-01-06T05:20:40.162494-05:00",
+          "epochMilliseconds": 1641464440162,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1360,
+          "HFR": 5.5796289898360278
+        },
+        {
+          "id": "99a8057b-fd11-408a-80b6-c597b61a0116",
+          "fileName": "2022-01-06_05-20-41___1.00s_0007.fits",
+          "started": "2022-01-06T05:20:41.1950377-05:00",
+          "epochMilliseconds": 1641464441195,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1535,
+          "HFR": 3.4954382760894664
+        },
+        {
+          "id": "de0c6991-1d88-409b-b7f4-bbeb9f28b302",
+          "fileName": "2022-01-06_05-20-42___1.00s_0008.fits",
+          "started": "2022-01-06T05:20:42.2342215-05:00",
+          "epochMilliseconds": 1641464442234,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1765,
+          "HFR": 4.4633596103933453
+        },
+        {
+          "id": "0fd7dfa1-4a2f-45f9-8dd9-2cce5c78f5a0",
+          "fileName": "2022-01-06_05-20-43___1.00s_0009.fits",
+          "started": "2022-01-06T05:20:43.2587403-05:00",
+          "epochMilliseconds": 1641464443258,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1744,
+          "HFR": 5.0912374607712207
+        },
+        {
+          "id": "aebdeec6-6a27-4ecc-a6a1-2441bf3866df",
+          "fileName": "2022-01-06_05-20-44___1.00s_0010.fits",
+          "started": "2022-01-06T05:20:44.29208-05:00",
+          "epochMilliseconds": 1641464444292,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1528,
+          "HFR": 5.4311838752735326
+        },
+        {
+          "id": "918d5631-7531-4169-a674-c427695491f9",
+          "fileName": "2022-01-06_05-20-45___1.00s_0011.fits",
+          "started": "2022-01-06T05:20:45.3144373-05:00",
+          "epochMilliseconds": 1641464445314,
+          "duration": 1.0,
+          "filterName": "Ha",
+          "detectedStars": 1985,
+          "HFR": 5.1788058728812292
+        }
+      ]
+    }
+  ]
+}
