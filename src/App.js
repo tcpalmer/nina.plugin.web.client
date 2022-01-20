@@ -6,6 +6,7 @@ import Session from './Session';
 import {AppState} from './utilities/AppState';
 import Console from './utilities/Console';
 import {formatDateTime} from './utilities/utils';
+
 const logo = require('./assets/icons/logo_nina.png');
 
 const consola = require('consola');
@@ -62,11 +63,18 @@ class App extends React.Component {
     }
 
     this.addConsoleMessage('info', 'loaded session history: ' + response.url);
+
     this.setState({
       sessionHistory: response.data,
       selectedSession: this.state.pendingSelectedSession,
+      selectedSessionDisplay: this.getSessionDisplayName(this.state.pendingSelectedSession),
     });
   };
+
+  getSessionDisplayName(sessionKey) {
+    const elem = this.state.sessionList.find(element => element.key === sessionKey);
+    return elem !== null ? elem.display: 'n/a';
+  }
 
   addConsoleMessage(type, message) {
     const date = formatDateTime(new Date());
@@ -102,10 +110,8 @@ class App extends React.Component {
 
   render() {
     consola.trace('App: render');
-    const {sessionList, sessionHistory, selectedSession, consoleMessages, consoleOpen, consoleButtonClass} = this.state;
+    const {sessionList, sessionHistory, selectedSession, selectedSessionDisplay, consoleMessages, consoleOpen, consoleButtonClass} = this.state;
     const sessionPath = '/sessions/' + selectedSession;
-
-    consola.error('PUBLIC: ' + window.__webpack_public_path__);
 
     return <div style={{margin: 20}}>
       <React.StrictMode>
@@ -134,7 +140,7 @@ class App extends React.Component {
         <Divider/>
 
         <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
-        <Session key={sessionHistory ? sessionHistory.id : null} sessionHistory={sessionHistory} sessionName={selectedSession} sessionPath={sessionPath}/>
+        <Session key={sessionHistory ? sessionHistory.id : null} sessionHistory={sessionHistory} sessionName={selectedSession} sessionDisplay={selectedSessionDisplay} sessionPath={sessionPath}/>
 
         <Drawer size={this.getConsoleSize()} open={consoleOpen} onClose={() => this.setConsoleOpen(false)}>
           <Drawer.Body>

@@ -23,7 +23,7 @@ class Session extends React.Component {
   //   after adding the auto-expand for active session, looks like you get an undesired re-render when switching
 
   render() {
-    const {sessionHistory, sessionName, sessionPath} = this.props;
+    const {sessionHistory, sessionName, sessionDisplay, sessionPath} = this.props;
     consola.trace('Session: render');
 
     if (!sessionHistory) {
@@ -34,7 +34,7 @@ class Session extends React.Component {
 
     return <div>
       <Badge content={badge}>
-        <Message className="session-name">Selected Session: {sessionName}</Message>
+        <Message className="session-name">Session: {sessionDisplay}</Message>
       </Badge>
       {sessionHistory.targets.map(target => (
           <Target key={this.getTargetKey(target)} active={this.isActive(target)} target={target} sessionPath={sessionPath}/>
