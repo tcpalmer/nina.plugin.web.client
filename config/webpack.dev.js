@@ -22,6 +22,10 @@ module.exports = merge(common, {
         target: 'http://localhost:9001',
         changeOrigin: true,
       },
+      '/api': {
+        target: 'http://localhost:9002',
+        changeOrigin: true,
+      },
     },
   },
 

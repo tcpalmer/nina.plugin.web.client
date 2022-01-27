@@ -67,7 +67,7 @@ class Target extends React.Component {
   }
 
   render() {
-    const {active, target, sessionPath} = this.props;
+    const {active, target, sessionPath, imageClick} = this.props;
     const {ready, rows, displaySize} = this.state;
 
     consola.trace('Target: render, ready=' + ready);
@@ -75,7 +75,7 @@ class Target extends React.Component {
     return <Panel header={'Target: ' + target.name} collapsible bordered defaultExpanded={active}>
       <PlaceholderWrapper enabled={!ready}/>
       {ready &&
-      <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize}/>
+      <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize} imageClick={imageClick}/>
       }
     </Panel>;
   }

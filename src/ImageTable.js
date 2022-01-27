@@ -51,7 +51,7 @@ class ImageTable extends React.Component {
 
   render() {
     const {sortColumn, sortType} = this.state;
-    const {sessionPath, rows, size} = this.props;
+    const {sessionPath, rows, size, imageClick} = this.props;
     const loaded = rows && rows.length > 0;
 
     consola.trace('ImageTable: render, row/col: ' + JSON.stringify(size));
@@ -70,7 +70,7 @@ class ImageTable extends React.Component {
       >
         <Column width={size.width} fixed>
           <HeaderCell>Image</HeaderCell>
-          <ThumbnailCell dataKey="id" sessionPath={sessionPath} thumbnailSize={size}/>
+          <ThumbnailCell dataKey="id" sessionPath={sessionPath} thumbnailSize={size} clickAction={imageClick}/>
         </Column>
 
         <Column width={60} sortable resizable>
@@ -108,12 +108,19 @@ class ImageTable extends React.Component {
   }
 }
 
-const ThumbnailCell = ({sessionPath, thumbnailSize, rowData, dataKey, ...props}) => (
-    <Cell {...props} style={{padding: 0}}>
-      <div>
-        <img src={sessionPath + '/thumbnails/' + rowData[dataKey] + '.jpg'} alt="thumbnail n/a" width={thumbnailSize.width} height={thumbnailSize.height}/>
-      </div>
-    </Cell>
-);
+const ThumbnailCell = ({ sessionPath, thumbnailSize, clickAction, rowData, dataKey, ...props }) => {
+
+  function handleAction() {
+    clickAction(rowData);
+  }
+
+  return (
+      <Cell {...props} style={{padding: 0}}>
+        <div>
+          <img onClick={handleAction} src={sessionPath + '/thumbnails/' + rowData[dataKey] + '.jpg'} alt="thumbnail n/a" width={thumbnailSize.width} height={thumbnailSize.height}/>
+        </div>
+      </Cell>
+  );
+};
 
 export default ImageTable;

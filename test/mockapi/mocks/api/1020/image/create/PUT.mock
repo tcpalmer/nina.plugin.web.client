@@ -1,0 +1,25 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#code}}
+(()=>{
+    const id = request.body.id;
+    const fullPath = request.body.fullPath;
+    const sessionName = request.body.sessionName;
+    if (fullPath == null || fullPath.includes('notfound')) {
+        return {
+            status: 404,
+            body: "{}"
+        }
+    } else {
+        return {
+            status: 200,
+            body: `{
+                "id": "${id}",
+                "cached": "2022-01-24",
+                "urlPath": "/sessions/${sessionName}/images/${id}.jpg"
+            }`
+        }
+    };
+})();
+{{/code}}

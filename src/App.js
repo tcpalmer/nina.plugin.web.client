@@ -73,7 +73,7 @@ class App extends React.Component {
 
   getSessionDisplayName(sessionKey) {
     const elem = this.state.sessionList.find(element => element.key === sessionKey);
-    return elem !== null ? elem.display: 'n/a';
+    return elem !== null ? elem.display : 'n/a';
   }
 
   addConsoleMessage(type, message) {
@@ -140,7 +140,7 @@ class App extends React.Component {
         <Divider/>
 
         <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
-        <Session key={sessionHistory ? sessionHistory.id : null} sessionHistory={sessionHistory} sessionName={selectedSession} sessionDisplay={selectedSessionDisplay} sessionPath={sessionPath}/>
+        <Session key={sessionHistory?.id} sessionHistory={sessionHistory} sessionName={selectedSession} sessionDisplay={selectedSessionDisplay} sessionPath={sessionPath}/>
 
         <Drawer size={this.getConsoleSize()} open={consoleOpen} onClose={() => this.setConsoleOpen(false)}>
           <Drawer.Body>
