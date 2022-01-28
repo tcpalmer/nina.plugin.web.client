@@ -16,18 +16,15 @@ function AlertModal(props) {
   const {message} = props;
 
   return <Modal backdrop={true} role="alertdialog" open={open} onClose={handleClose} size="xs">
-    <Modal.Body>
+    <Modal.Header>
       <RemindFill
-          style={{
-            color: '#ffb300',
-            fontSize: 24,
-          }}
-      />
-      {message}
-    </Modal.Body>
-    <Modal.Footer>
-      <Button onClick={handleClose} appearance="primary">Ok</Button>
-    </Modal.Footer>
+        style={{
+          color: '#ffb300',
+          fontSize: 24,
+        }}
+    />
+    </Modal.Header>
+    <Modal.Body>{message}</Modal.Body>
   </Modal>;
 }
 

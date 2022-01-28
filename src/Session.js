@@ -3,7 +3,6 @@ import Target from './Target';
 import {Badge, Message} from 'rsuite';
 import {Api1020} from './utilities/Api1020';
 import ImageViewer from './ImageViewer';
-import AlertModal from './utilities/AlertModal';
 import AlertModalWrapper from './utilities/AlertModal';
 
 const consola = require('consola');
@@ -33,8 +32,8 @@ class Session extends React.Component {
       if (response.ok) {
         this.setState({imageViewerOpen: true, showAlert: false, imageRecord: imageRecord, imageSrc: image.urlPath});
       } else {
-        const msg = `Original image unavailable or failed to load (path: ${imageRecord.fullPath})`;
-        this.setState({imageViewerOpen: false, showAlert: true,  alertMessage: msg});
+        const msg = `Original image unavailable or failed to load.  Also be sure NINA is running and the Web plugin is enabled.  (Image: ${imageRecord.fullPath})`;
+        this.setState({imageViewerOpen: false, showAlert: true, alertMessage: msg});
       }
     });
   };
