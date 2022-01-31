@@ -1,11 +1,15 @@
 import React from 'react';
 import {LogLevel} from 'consola';
-import {Button, Col, Divider, Drawer, Dropdown, Grid, Row} from 'rsuite';
+import {Container, Content, Divider, Header, Nav, Navbar} from 'rsuite';
+import {AppState} from './utilities/AppState';
+import {formatDateTime} from './utilities/utils';
+import Cog from '@rsuite/icons/legacy/Cog';
+import AppModal from './utilities/AppModal';
+import HelpContent from './utilities/HelpContent';
 import PlaceholderWrapper from './utilities/wrappers';
 import Session from './Session';
-import {AppState} from './utilities/AppState';
 import Console from './utilities/Console';
-import {formatDateTime} from './utilities/utils';
+import SettingsForm from './utilities/SettingsForm';
 
 const logo = require('./assets/icons/logo_nina.png');
 
@@ -27,6 +31,9 @@ class App extends React.Component {
       consoleOpen: false,
       consoleButtonClass: 'console-button-info',
       consoleMessages: [],
+      showSettings: false,
+      showConsole: false,
+      showHelp: false,
     };
   }
 
@@ -85,10 +92,6 @@ class App extends React.Component {
     });
   }
 
-  setConsoleOpen(state) {
-    this.setState({consoleOpen: state});
-  }
-
   selectSession = (eventKey) => {
     consola.debug('selected session: ' + eventKey);
     if (this.state.selectedSession !== eventKey) {
@@ -100,6 +103,7 @@ class App extends React.Component {
     }
   };
 
+  // TODO: repurpose for modal size
   getConsoleSize() {
     if (window.matchMedia('(min-width: 992px)').matches) {
       return 'md';
@@ -108,45 +112,57 @@ class App extends React.Component {
     return window.matchMedia('(min-width: 680px)').matches ? 'sm' : 'xs';
   }
 
+  openSettings = () => { this.setState({showSettings: true}); };
+  closeSettings = () => { this.setState({showSettings: false}); };
+
+  openConsole = () => { this.setState({showConsole: true}); };
+  closeConsole = () => { this.setState({showConsole: false}); };
+
+  openHelp = () => { this.setState({showHelp: true}); };
+  closeHelp = () => { this.setState({showHelp: false}); };
+
   render() {
     consola.trace('App: render');
-    const {sessionList, sessionHistory, selectedSession, selectedSessionDisplay, consoleMessages, consoleOpen, consoleButtonClass} = this.state;
+    const {sessionList, sessionHistory, selectedSession, selectedSessionDisplay, consoleMessages, consoleButtonClass} = this.state;
+    const {showSettings, showConsole, showHelp} = this.state;
     const sessionPath = '/sessions/' + selectedSession;
 
     return <div style={{margin: 20}}>
       <React.StrictMode>
 
-        <Grid fluid>
-          <Row>
-            <Col><img src={logo} width={30} height={30} alt="NINA"/></Col>
-            <Col className="header-text">NINA Session Status</Col>
-          </Row>
+        <Container>
+          <Header>
+            <Navbar>
+              <Navbar.Body>
+                <Nav> <Nav.Item><img src={logo} width={30} height={30} alt="NINA"/></Nav.Item> </Nav>
 
-          <Divider/>
+                <Nav>
+                  <Nav.Dropdown title="Sessions" activeKey={selectedSession} onSelect={this.selectSession}>
+                    {sessionList.map(session => (
+                        <Nav.Dropdown.Item eventKey={session.key} key={session.key}>{session.display}</Nav.Dropdown.Item>
+                    ))}
+                  </Nav.Dropdown>
+                </Nav>
 
-          <Row>
-            <Col>
-              <Dropdown title="Select Session" activeKey={selectedSession} onSelect={this.selectSession}>
-                {sessionList.map(session => (
-                    <Dropdown.Item eventKey={session.key} key={session.key}>{session.display}</Dropdown.Item>
-                ))}
-              </Dropdown>
-            </Col>
-            <Col><Button onClick={() => this.setConsoleOpen(true)} className={consoleButtonClass}>Show Console</Button>
-            </Col>
-          </Row>
-        </Grid>
+                <Nav> <Nav.Item onClick={this.openConsole} className={consoleButtonClass}>Console</Nav.Item> </Nav>
+                <Nav> <Nav.Item onClick={this.openHelp}>Help</Nav.Item> </Nav>
+                <Nav pullRight> <Nav.Item icon={<Cog/>} onClick={this.openSettings}/> </Nav>
 
-        <Divider/>
+              </Navbar.Body>
+            </Navbar>
+          </Header>
 
-        <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
-        <Session key={sessionHistory?.id} sessionHistory={sessionHistory} sessionName={selectedSession} sessionDisplay={selectedSessionDisplay} sessionPath={sessionPath}/>
+          <Content>
+            <Divider/>
+            <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
+            <Session key={sessionHistory?.id} sessionHistory={sessionHistory} sessionName={selectedSession} sessionDisplay={selectedSessionDisplay} sessionPath={sessionPath}/>
+          </Content>
 
-        <Drawer size={this.getConsoleSize()} open={consoleOpen} onClose={() => this.setConsoleOpen(false)}>
-          <Drawer.Body>
-            <Console messages={consoleMessages}/>
-          </Drawer.Body>
-        </Drawer>
+        </Container>
+
+        <SettingsForm key={new Date()} open={showSettings} handleClose={this.closeSettings}/>
+        <AppModal open={showConsole} handleClose={this.closeConsole} title="Console"><Console messages={consoleMessages}/></AppModal>
+        <AppModal open={showHelp} handleClose={this.closeHelp} title="Help"><HelpContent/></AppModal>
 
       </React.StrictMode>
     </div>;

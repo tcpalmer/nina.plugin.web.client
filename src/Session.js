@@ -4,18 +4,24 @@ import {Badge, Message} from 'rsuite';
 import {Api1020} from './utilities/Api1020';
 import ImageViewer from './ImageViewer';
 import AlertModalWrapper from './utilities/AlertModal';
+import {SettingsManager} from './utilities/SettingsManager';
 
 const consola = require('consola');
 
 class Session extends React.Component {
 
+  settingsManager = null;
+
   constructor(props) {
     super(props);
+
     this.state = {
       imageViewerOpen: false,
       showAlert: false,
       api: new Api1020(),
     };
+
+    this.settingsManager = new SettingsManager();
   }
 
   isActive(target) {
@@ -28,7 +34,7 @@ class Session extends React.Component {
       return null;
     }
 
-    this.state.api.imageCreate(this.props.sessionHistory, this.props.sessionName, imageRecord, (response, image) => {
+    this.state.api.imageCreate(this.props.sessionHistory, this.props.sessionName, this.settingsManager, imageRecord, (response, image) => {
       if (response.ok) {
         this.setState({imageViewerOpen: true, showAlert: false, imageRecord: imageRecord, imageSrc: image.urlPath});
       } else {
