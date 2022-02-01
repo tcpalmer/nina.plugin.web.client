@@ -25,6 +25,18 @@
   }
 }
 
+// Nav Menu //
+
+.rs-navbar-item {
+  padding: 18px 10px;
+
+  &:focus {
+    color: inherit;
+  }
+}
+
+// //
+
 .header-text {
   &:extend(.ui-text-large);
 }
@@ -39,7 +51,7 @@
   margin-bottom: 12px;
 }
 
-// console styles //
+// Console //
 
 .console-item {
   font-family: monospace;
@@ -77,5 +89,41 @@
 .console-button-error {
   color: red;
 }
+
+// Modals //
+
+.modal {
+  & h1 {
+    font-size: large;
+    line-height: normal;
+  }
+
+  & h2 {
+    font-size: medium;
+    line-height: normal;
+    margin: 20px 0 8px 0
+  }
+}
+
+.rs-modal-sm {
+  width: 400px;
+}
+
+.rs-modal-xs {
+  width: 340px;
+}
+
+@media (max-width: 479px) {
+  .modal {
+    & p {
+      font-size: small;
+    }
+  }
+}
+
+
+// ImageViewer //
+
+@import (css) "~react-image-lightbox/style.css";
 
 // //

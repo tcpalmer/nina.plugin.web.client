@@ -3,6 +3,11 @@
   "clientVersion": "0.1",
   "startTime": "2022-01-11T19:38:13.0041024-05:00",
   "activeTargetId": "a0d174a5-16af-43a3-939b-6d5416ce6673",
+  "stretchOptions": {
+    "autoStretchFactor": 0.2,
+    "blackClipping": -2.8,
+    "unlinkedStretch": true
+  },
   "targets": [
     {
       "id": "a0d174a5-16af-43a3-939b-6d5416ce6673",
@@ -13,6 +18,7 @@
           "id": "c3a5e9e0-f260-4989-a5a1-1950976ca913",
           "index": 1,
           "fileName": "180.00sec_Ha_gain_139_offset_21_1x1__0092.xisf",
+          "fullPath": "C:/some/path/LIGHT/notfound.fits",
           "started": "2022-01-11T19:35:09.8923711-05:00",
           "epochMilliseconds": 1641947709892,
           "duration": 180.0,
@@ -24,6 +30,7 @@
           "id": "0e2f57a4-0850-4172-88f6-9378eee9b044",
           "index": 2,
           "fileName": "180.00sec_Ha_gain_139_offset_21_1x1__0093.xisf",
+          "fullPath": "C:/some/path/LIGHT/notfound.fits",
           "started": "2022-01-11T19:38:10.6720022-05:00",
           "epochMilliseconds": 1641947890672,
           "duration": 180.0,
@@ -35,6 +42,7 @@
           "id": "aacdefc3-35e5-4aaa-be21-65a506f7c2da",
           "index": 3,
           "fileName": "180.00sec_Ha_gain_139_offset_21_1x1__0094.xisf",
+          "fullPath": "C:/some/path/LIGHT/notfound.fits",
           "started": "2022-01-11T19:41:11.4553317-05:00",
           "epochMilliseconds": 1641948071455,
           "duration": 180.0,

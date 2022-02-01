@@ -15,10 +15,14 @@
   "dependencies": {
     "@rsuite/icons": "^1.0.2",
     "consola": "^2.15.3",
+    "json-mock-api": "^1.2.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-image-lightbox": "^5.1.4",
     "rsuite": "^5.4.4",
-    "rsuite-table": "^5.3.0"
+    "rsuite-table": "^5.3.0",
+    "schema-typed": "^2.0.2",
+    "uuid": "^8.3.2"
   },
   "main": "index.js",
   "scripts": {

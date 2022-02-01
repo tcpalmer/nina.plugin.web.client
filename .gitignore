@@ -9,3 +9,4 @@ yarn.lock
 
 .idea
 /*.iml
+/camouflage.log

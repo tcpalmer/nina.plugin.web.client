@@ -14,7 +14,6 @@ class Target extends React.Component {
     this.state = {
       ready: false,
       rows: [],
-      // TODO: might need to tune this some more, add another breakpoint
       mq992: window.matchMedia('(min-width: 992px)'),
     };
   }
@@ -63,11 +62,11 @@ class Target extends React.Component {
   getDisplaySize(thumbnailSize) {
     return this.state.mq992.matches ?
         {width: thumbnailSize.width, height: thumbnailSize.height} :
-        {width: thumbnailSize.width / 2, height: thumbnailSize.height / 2};
+        {width: thumbnailSize.width / 3, height: thumbnailSize.height / 3};
   }
 
   render() {
-    const {active, target, sessionPath} = this.props;
+    const {active, target, sessionPath, imageClick} = this.props;
     const {ready, rows, displaySize} = this.state;
 
     consola.trace('Target: render, ready=' + ready);
@@ -75,7 +74,7 @@ class Target extends React.Component {
     return <Panel header={'Target: ' + target.name} collapsible bordered defaultExpanded={active}>
       <PlaceholderWrapper enabled={!ready}/>
       {ready &&
-      <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize}/>
+      <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize} imageClick={imageClick}/>
       }
     </Panel>;
   }

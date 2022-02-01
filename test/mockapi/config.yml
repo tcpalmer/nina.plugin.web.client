@@ -1,0 +1,36 @@
+loglevel: info
+cpus: 1
+monitoring:
+  port: 5555
+ssl:
+  cert: "./certs/server.cert"
+  key: "./certs/server.key"
+protocols:
+  http:
+    enable: true
+    mocks_dir: "./test/mockapi/mocks"
+    port: 9002
+  https:
+    enable: false
+    port: 8443
+  http2:
+    enable: false
+    port: 8081
+  ws:
+    enable: false
+    mocks_dir: "./ws_mocks"
+    port: 8082
+  grpc:
+    enable: false
+    host: localhost
+    port: 4312
+    mocks_dir: "./grpc/mocks"
+    protos_dir: "./grpc/protos"
+backup:
+  enable: false
+  cron: "0 * * * *" # Hourly Backup
+cache:
+  enable: false
+  ttl_seconds: 300
+injection:
+  enable: true
