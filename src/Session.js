@@ -12,6 +12,8 @@ class Session extends React.Component {
 
   settingsManager = null;
 
+  // TODO: At least on Windows Chrome, dismissing a modal will trigger the image viewer
+
   constructor(props) {
     super(props);
 

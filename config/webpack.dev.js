@@ -16,7 +16,6 @@ module.exports = merge(common, {
     compress: true,
     hot: true,
     port: 9000,
-    //writeToDisk: true,
     proxy: {
       '/sessions': {
         target: 'http://localhost:9001',

@@ -1,52 +1,29 @@
-import React from 'react';
-import Viewer from 'react-viewer';
+import React, {Component} from 'react';
+import Lightbox from 'react-image-lightbox';
 
-const consola = require('consola');
-
-class ImageViewer extends React.Component {
-
+export default class LightboxExample extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      visible: true,
-    };
+    this.state = {isOpen: true};
   }
 
   render() {
+    const {isOpen} = this.state;
     const {imageRecord, imageSrc, onClose} = this.props;
-    const {visible} = this.state;
-
-    consola.trace('ImageViewer render: ' + imageRecord.fullPath);
 
     return (
         <div>
-          <Viewer
-              visible={visible}
-              onClose={() => {
-                this.setState({visible: false});
-                onClose();
-              }}
-
-              attribute={true}
-              disableMouseZoom={false}
-              noNavbar={true}
-              noImgDetails={true}
-              drag={true}
-              showTotal={false}
-              zoomSpeed={0.2}
-              changeable={false}
-              rotatable={true}
-              scalable={false}
-              defaultScale={1}
-              minScale={1}
-              zIndex={2010}
-              images={[{src: imageSrc, alt: imageRecord.fullPath}]}
-          />
+          {isOpen && (
+              <Lightbox
+                  mainSrc={imageSrc}
+                  imageTitle={imageRecord.fullPath}
+                  onCloseRequest={() => {
+                    this.setState({isOpen: false});
+                    onClose();
+                  }}
+              />
+          )}
         </div>
     );
   }
-
 }
-
-export default ImageViewer;
