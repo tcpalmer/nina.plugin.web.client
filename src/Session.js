@@ -12,8 +12,6 @@ class Session extends React.Component {
 
   settingsManager = null;
 
-  // TODO: At least on Windows Chrome, dismissing a modal will trigger the image viewer
-
   constructor(props) {
     super(props);
 
@@ -50,9 +48,14 @@ class Session extends React.Component {
     this.setState({imageViewerOpen: false, showAlert: false, imageRecord: null, imageSrc: null});
   };
 
+  getTarget(target, targetKey, sessionPath) {
+    const key = this.isActive(target) ? target.id + '_' + targetKey : target.id;
+    return <Target key={key} active={this.isActive(target)} target={target} sessionPath={sessionPath} imageClick={this.handleImageClick}/>;
+  }
+
   render() {
     const {imageViewerOpen, showAlert, alertMessage, imageRecord, imageSrc} = this.state;
-    const {sessionHistory, sessionName, sessionDisplay, sessionPath} = this.props;
+    const {sessionHistory, sessionName, sessionDisplay, sessionUpdatedKey, sessionPath} = this.props;
 
     if (!sessionHistory) {
       return null;
@@ -68,8 +71,8 @@ class Session extends React.Component {
       </Badge>
 
       {sessionHistory.targets.map(target => (
-          <Target key={target.id} active={this.isActive(target)} target={target} sessionPath={sessionPath} imageClick={this.handleImageClick}/>
-      ))}
+          this.getTarget(target, sessionUpdatedKey, sessionPath)
+        ))}
 
       {imageViewerOpen &&
       <ImageViewer imageRecord={imageRecord} imageSrc={imageSrc} onClose={this.closeImageViewer}/>

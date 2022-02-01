@@ -28,6 +28,8 @@
 // Nav Menu //
 
 .rs-navbar-item {
+  padding: 18px 10px;
+
   &:focus {
     color: inherit;
   }
@@ -102,6 +104,23 @@
     margin: 20px 0 8px 0
   }
 }
+
+.rs-modal-sm {
+  width: 400px;
+}
+
+.rs-modal-xs {
+  width: 340px;
+}
+
+@media (max-width: 479px) {
+  .modal {
+    & p {
+      font-size: small;
+    }
+  }
+}
+
 
 // ImageViewer //
 

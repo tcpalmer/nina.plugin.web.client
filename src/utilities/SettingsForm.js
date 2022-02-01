@@ -2,6 +2,7 @@ import React from 'react';
 import {SettingsManager} from './SettingsManager';
 import {Button, ButtonToolbar, Divider, Form, Modal, Radio, RadioGroup, Schema} from 'rsuite';
 import {BooleanType, MixedType} from 'schema-typed';
+import {getModalSize} from './utils';
 
 const SettingsForm = (props) => {
   const {open, handleClose} = props;
@@ -34,7 +35,7 @@ const SettingsForm = (props) => {
 
   return (
       <div>
-        <Modal open={open} onClose={handleClose} className="modal" backdrop="static" keyboard={false}>
+        <Modal size={getModalSize()} open={open} onClose={handleClose} className="modal" backdrop="static" keyboard={false}>
           <Modal.Header closeButton={false}>
             <Modal.Title><h1>Settings</h1></Modal.Title>
           </Modal.Header>

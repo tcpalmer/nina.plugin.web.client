@@ -33,17 +33,17 @@ const HelpContent = () => {
 
         <h2>Image Viewer</h2>
         <p>
-          If you click a thumbnail image in the table, an image viewer will open with a larger view of the image. Controls to zoom,
-          rotate, and reset are at the bottom and a close button is at the top right. Hitting ESC will also close the viewer.
+          If you click a thumbnail image in the table, an image viewer will open with a larger view of the image. Controls to zoom
+          and a close button are at the top right. Hitting ESC will also close the viewer.
         </p>
         <p>
           Mouse controls:
           <ul>
-            <li>Right mouse click and hold to drag.</li>
-            <li>The mouse thumb wheel will zoom in and out. The mouse pointer location will be the center of zoom which is quite handy
+            <li>Right mouse click and hold to drag (if zoomed in).</li>
+            <li>The mouse thumb wheel will also zoom in and out. The mouse pointer location will be the center of zoom which is quite handy
               for zooming in on an area of interest.
             </li>
-            <li>Pinch to zoom is not supported.</li>
+            <li>On touch-enabled devices, pinch to zoom in/out works.</li>
           </ul>
         </p>
         <p>

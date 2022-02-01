@@ -10,6 +10,7 @@ import PlaceholderWrapper from './utilities/wrappers';
 import Session from './Session';
 import Console from './utilities/Console';
 import SettingsForm from './utilities/SettingsForm';
+import {v4 as uuidv4} from 'uuid';
 
 const logo = require('./assets/icons/logo_nina.png');
 
@@ -75,6 +76,7 @@ class App extends React.Component {
       sessionHistory: response.data,
       selectedSession: this.state.pendingSelectedSession,
       selectedSessionDisplay: this.getSessionDisplayName(this.state.pendingSelectedSession),
+      sessionUpdatedKey: uuidv4(),
     });
   };
 
@@ -103,15 +105,6 @@ class App extends React.Component {
     }
   };
 
-  // TODO: repurpose for modal size
-  getConsoleSize() {
-    if (window.matchMedia('(min-width: 992px)').matches) {
-      return 'md';
-    }
-
-    return window.matchMedia('(min-width: 680px)').matches ? 'sm' : 'xs';
-  }
-
   openSettings = () => { this.setState({showSettings: true}); };
   closeSettings = () => { this.setState({showSettings: false}); };
 
@@ -123,7 +116,7 @@ class App extends React.Component {
 
   render() {
     consola.trace('App: render');
-    const {sessionList, sessionHistory, selectedSession, selectedSessionDisplay, consoleMessages, consoleButtonClass} = this.state;
+    const {sessionList, sessionHistory, selectedSession, selectedSessionDisplay, sessionUpdatedKey, consoleMessages, consoleButtonClass} = this.state;
     const {showSettings, showConsole, showHelp} = this.state;
     const sessionPath = '/sessions/' + selectedSession;
 
@@ -133,29 +126,33 @@ class App extends React.Component {
         <Container>
           <Header>
             <Navbar>
-              <Navbar.Body>
-                <Nav> <Nav.Item><img src={logo} width={30} height={30} alt="NINA"/></Nav.Item> </Nav>
+              <Nav> <Nav.Item><img src={logo} width={30} height={30} alt="NINA"/></Nav.Item> </Nav>
 
-                <Nav>
-                  <Nav.Dropdown title="Sessions" activeKey={selectedSession} onSelect={this.selectSession}>
-                    {sessionList.map(session => (
-                        <Nav.Dropdown.Item eventKey={session.key} key={session.key}>{session.display}</Nav.Dropdown.Item>
-                    ))}
-                  </Nav.Dropdown>
-                </Nav>
+              <Nav>
+                <Nav.Dropdown title="Sessions" activeKey={selectedSession} onSelect={this.selectSession}>
+                  {sessionList.map(session => (
+                      <Nav.Dropdown.Item eventKey={session.key} key={session.key}>{session.display}</Nav.Dropdown.Item>
+                  ))}
+                </Nav.Dropdown>
+              </Nav>
 
-                <Nav> <Nav.Item onClick={this.openConsole} className={consoleButtonClass}>Console</Nav.Item> </Nav>
-                <Nav> <Nav.Item onClick={this.openHelp}>Help</Nav.Item> </Nav>
-                <Nav pullRight> <Nav.Item icon={<Cog/>} onClick={this.openSettings}/> </Nav>
+              <Nav> <Nav.Item onClick={this.openConsole} className={consoleButtonClass}>Console</Nav.Item> </Nav>
+              <Nav> <Nav.Item onClick={this.openHelp}>Help</Nav.Item> </Nav>
+              <Nav> <Nav.Item icon={<Cog/>} onClick={this.openSettings}/> </Nav>
 
-              </Navbar.Body>
             </Navbar>
           </Header>
 
           <Content>
             <Divider/>
             <PlaceholderWrapper enabled={this.state.selectedSession === null}/>
-            <Session key={sessionHistory?.id} sessionHistory={sessionHistory} sessionName={selectedSession} sessionDisplay={selectedSessionDisplay} sessionPath={sessionPath}/>
+            <Session key={sessionHistory?.id}
+                     sessionHistory={sessionHistory}
+                     sessionName={selectedSession}
+                     sessionDisplay={selectedSessionDisplay}
+                     sessionUpdatedKey={sessionUpdatedKey}
+                     sessionPath={sessionPath}
+            />
           </Content>
 
         </Container>
