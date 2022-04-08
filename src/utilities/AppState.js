@@ -54,7 +54,7 @@ export class AppState {
 
     if (!response.cacheUsed) {
       consola.success('loaded fresh session list: ' + this.#sessionListUrl);
-      consola.trace(response.data);
+      //consola.trace(response.data);
       this.#sessionListChanged({data: response.data, url: this.#sessionListUrl, error: false});
       return;
     }
@@ -72,7 +72,7 @@ export class AppState {
 
     if (!response.cacheUsed) {
       consola.success('loaded fresh session history: ' + this.#sessionHistoryUrl);
-      consola.trace(response.data);
+      //consola.trace(response.data);
       const sessionHistory = response.data;
 
       if (sessionHistory.activeTargetId) {

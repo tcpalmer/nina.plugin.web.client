@@ -2,7 +2,7 @@ import React from 'react';
 import {LogLevel} from 'consola';
 import {Container, Content, Divider, Header, Nav, Navbar} from 'rsuite';
 import {AppState} from './utilities/AppState';
-import {formatDateTime} from './utilities/utils';
+import {formatDateTimeISO, formatDateTimeMS} from './utilities/utils';
 import Cog from '@rsuite/icons/legacy/Cog';
 import AppModal from './utilities/AppModal';
 import HelpContent from './utilities/HelpContent';
@@ -86,7 +86,7 @@ class App extends React.Component {
   }
 
   addConsoleMessage(type, message) {
-    const date = formatDateTime(new Date());
+    const date = formatDateTimeMS(new Date().getTime());
     const copy = [{type, date, message}, ...this.state.consoleMessages];
     this.setState({
       consoleMessages: copy,

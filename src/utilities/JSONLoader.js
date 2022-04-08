@@ -54,7 +54,7 @@ export class JSONLoader {
     try {
       const init = {cache: 'no-cache', headers: {'Content-Type': 'application/json'}};
       const response = await fetch(this.#url, init);
-      consola.trace(response);
+      //consola.trace(response);
 
       if (response.ok) {
         const json = await response.json();
@@ -68,18 +68,18 @@ export class JSONLoader {
           cacheUsed = true;
         }
 
-        consola.trace(json);
-        this.#loadedCallback({data: json, cacheUsed: cacheUsed, error: false});
+        //consola.trace(json);
+        this.#loadedCallback({data: json, cacheUsed: cacheUsed, error: false, url: this.#url});
 
       } else {
         consola.error('request failed to load: ' + this.#url + ', response:');
         consola.error(response);
-        this.#loadedCallback({data: null, cacheUsed: false, error: true});
+        this.#loadedCallback({data: null, cacheUsed: false, error: true, url: this.#url});
       }
 
     } catch (e) {
       consola.error(e);
-      this.#loadedCallback({data: null, cacheUsed: false, error: true});
+      this.#loadedCallback({data: null, cacheUsed: false, error: true, url: this.#url});
     }
 
   }

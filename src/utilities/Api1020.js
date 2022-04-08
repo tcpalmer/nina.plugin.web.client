@@ -41,4 +41,7 @@ export class Api1020 {
     }
   }
 
+  // TODO: Call to fetch an autofocus run file (run when a new AF event is found in the session history)
+  //   - Save to SESSION_HOME/autoFocus/FILE.json
+  //   - How does this differ from HF?
 }

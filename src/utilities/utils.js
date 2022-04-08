@@ -1,10 +1,24 @@
-//
+import {DateTime} from 'luxon';
 
-export function formatDateTime(dts) {
-  const dateTime = new Date(dts);
-  const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
-  const timeOptions = {hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false};
-  return dateTime.toLocaleTimeString([], timeOptions) + ' ' + dateTime.toLocaleDateString([], dateOptions);
+export function formatDateTimeISO(dts) {
+  return dtFormat(DateTime.fromISO(dts));
+}
+
+export function formatDateTimeMS(dts) {
+  return dtFormat(DateTime.fromMillis(dts));
+}
+
+// TODO: need to test and see if locale is being properly handled
+function dtFormat(dt) {
+  return dt.toFormat('HH:mm:ss LL/dd/yyyy');
+}
+
+export function precision(value, prec = 4) {
+  return Number.parseFloat(value).toPrecision(prec);
+}
+
+export function fixed(value, digits = 2) {
+  return value.toFixed(digits);
 }
 
 export function getModalSize() {
