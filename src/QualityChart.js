@@ -17,15 +17,8 @@ class QualityChart extends React.Component {
   }
 
   /*
-      TODO: think it would be best to normalize the ADU values ...?
-      TODO: appears to be completely redrawing the whole target on session history changes.
-
       TODO:
         - How well does mobile work?
-        - Test with dynamic data
-        - Dynamic by width:
-          - X axis tickCount needs to be dynamic based on number of images and available width
-          - Brush start is number of elements - 100, min of 1. 100 is NINA setting, might be less for mobile widths
         - Dynamic height: for mobile widths, the plot is too compressed, need to reduce height and y axis ticks
    */
 
@@ -90,19 +83,14 @@ class QualityChart extends React.Component {
         summary[metric].max = summary[metric].min;
     }
 
-    consola.trace('chart prep summary:');
-    consola.trace(summary);
+    //consola.trace('chart prep summary:');
+    //consola.trace(summary);
 
     return {'summary': summary, 'filters': filters, 'data': data};
   }
 
   xAxisTicks() {
     return 10;
-  }
-
-  brushStartIndex(size) {
-    const start = size - 100;
-    return start < 0 ? 0 : start;
   }
 
   selectLeftPlot = (eventKey) => { this.setState({leftMetric: eventKey}); };
@@ -113,30 +101,22 @@ class QualityChart extends React.Component {
     return (filter === 'All') ? data : data.filter(item => item.filter === filter);
   };
 
-// TODO: could possibly use this to sync multiple plots to the same scale (e.g. add ADU-specific chart?)
-// TODO: see the SynchronizedLineChart example - it does this.  Looks like syncId="anyId" does it
-  onBrushChange = (event) => {
-    // event: { startIndex: 3, endIndex: 49 }
-    // would have to move this function to a parent component that then sets props for each chart drawing component
-    // think you would want an option to sync scales or not
-    // indices are zero-based so 50 images is 0-49
-    // unfortunately, this seems to be called on every movement of a traveller, even if the index doesn't change
-  };
-
   render() {
     const {leftMetric, selectedFilter, rightMetric} = this.state;
     const {target} = this.props;
+
     const result = this.chartPrep(target.imageRecords);
     const summary = result.summary;
     const filters = result.filters;
     const data = result.data;
+
+    const key = `qc-${target.id}`;
 
     // The plot dropdowns will only contain metrics that have a non-zero range
     let metricDropdown = Object.keys(summary).filter(metric => summary[metric].range > 0);
     metricDropdown.unshift('None');
 
     // TODO: need style to shrink dropdowns?
-    // TODO: possible to get/plot temp?
 
     return <div>
       <Panel header="Quality Metrics" bordered bodyFill>
@@ -166,12 +146,12 @@ class QualityChart extends React.Component {
         </Navbar>
 
         <ResponsiveContainer width="100%" height={450}>
-          <LineChart data={this.filterByFilter(selectedFilter, data)} margin={{top: 30, right: 10, left: 10, bottom: 20}}>
+          <LineChart key={key} data={this.filterByFilter(selectedFilter, data)} margin={{top: 30, right: 10, left: 10, bottom: 20}}>
             <CartesianGrid strokeDasharray="3 2" stroke={'#666'}/>
             <XAxis dataKey="index" tickCount={this.xAxisTicks()}/>
             <YAxis yAxisId="left" tickCount={6} domain={['auto', 'auto']}/>
             <YAxis yAxisId="right" tickCount={6} domain={['auto', 'auto']} orientation="right"/>
-            <Brush dataKey="index" height={20} stroke="#444" fill="#888" travellerWidth={10} startIndex={this.brushStartIndex(data.length)}/>
+            <Brush dataKey="index" height={20} stroke="#444" fill="#888" travellerWidth={10}/>
             <Tooltip content={<QualityTooltip leftLabel={leftMetric} rightLabel={rightMetric}/>}/>
             <Legend/>
             {leftMetric !== 'None'} &&

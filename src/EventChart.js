@@ -11,40 +11,16 @@ class EventChart extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      ready: false,
-      events: [],
-      actualEvents: {},
-    };
   }
 
-  componentDidMount() {
-    const {sessionHistory} = this.props;
-    if (sessionHistory) {
-      this.startPrep(sessionHistory);
-    }
-  }
-
-  startPrep(sessionHistory) {
-
-    if (this.state.ready) {
-      return true;
-    }
-
+  prepEvents(sessionHistory) {
     const events = Event.getEvents(sessionHistory);
     const domain = this.reMapEventValues(events);
 
-    //consola.trace('EVENTS');
-    //consola.trace(events);
-    //consola.trace('DOMAIN');
-    //consola.trace(domain);
-
-    this.setState({
-      ready: true,
+    return {
       events: events,
       domain: domain,
-    });
+    };
   }
 
   reMapEventValues = (events) => {
@@ -74,13 +50,32 @@ class EventChart extends React.Component {
     return {min: 0, max: ordered.length - 1, types: ordered};
   };
 
-  /* TODO:
-       - stretch goal: render the AF plot and show
+  /*
+  It would be nice to have the Brush retain positions across session updates but it gets wonky.  But the behavior required a wait which made the traveller jump
+  once released (and was slow).  Also, if the right traveller was all the way right, then after an update you'd want it to reset to the max again, but didn't.
+
+  You need to set start/end in componentDidMount and add the following to Brush:
+  startIndex={this.state.startIndex} endIndex={this.state.endIndex} onChange={this.onBrushChange}
+
+  onBrushChange = (range) => {
+    clearTimeout(this.brushTimeout);
+    this.brushTimeout = setTimeout(() => {
+      this.setState({
+        startIndex: range.startIndex,
+        endIndex: range.endIndex,
+      });
+    }, 1000);
+  };
    */
 
   render() {
-    const {ready, events, domain} = this.state;
-    const {sessionPath} = this.props;
+    const {sessionHistory, sessionPath} = this.props;
+
+    if (!sessionHistory) {
+      return null;
+    }
+
+    const {events, domain} = this.prepEvents(sessionHistory);
 
     const eventTickFormatter = (value) => {
       const type = domain.types[value];
@@ -89,8 +84,14 @@ class EventChart extends React.Component {
 
     const eventShape = (props) => {
       const fill = eventColor(props);
+      const marker = eventMarker(props);
+      const pos = (marker.length === 1) ? {x: -3.3, y: 3.4} : {x: -5.5, y: 3.4};
+
       return (
-          <circle cx={props.cx} cy={props.cy} r="6" fill={fill}/>
+          <svg>
+            <circle cx={props.cx} cy={props.cy} r="10" fill={fill}/>
+            <text x={props.cx + pos.x} y={props.cy + pos.y} className="event-marker">{marker}</text>
+          </svg>
       );
     };
 
@@ -99,8 +100,12 @@ class EventChart extends React.Component {
       return Event.getEventColor(type, props.subType);
     };
 
+    const eventMarker = (props) => {
+      const type = domain.types[props.Yvalue];
+      return Event.getEventMarker(type, props.subType);
+    };
+
     return <div>
-      {ready &&
       <Panel header="Events" bordered bodyFill>
         <ResponsiveContainer width="100%" height={450}>
           <ScatterChart data={events} margin={{top: 30, right: 30, left: 20, bottom: 30}}>
@@ -122,10 +127,7 @@ class EventChart extends React.Component {
             />
             <Brush
                 dataKey="time"
-                height={20}
-                stroke="#444"
-                fill="#888"
-                travellerWidth={10}
+                height={20} stroke="#444" fill="#888" travellerWidth={10}
                 tickFormatter={(time) => DateTime.fromMillis(time).toFormat('HH:mm:ss')}
             />
             <Tooltip content={<EventTooltip sessionPath={sessionPath}/>}/>
@@ -134,13 +136,13 @@ class EventChart extends React.Component {
                 dataKey="time"
                 name="Type"
                 shape={eventShape}
+                isAnimationActive={false}
             />
           </ScatterChart>
 
         </ResponsiveContainer>
 
       </Panel>
-      }
     </div>;
   }
 }
@@ -170,19 +172,21 @@ class EventTooltip extends React.Component {
       if (type === 'AUTO-FOCUS') {
 
         const duration = Duration.fromMillis(event.source.duration).toFormat('mm:ss');
+        const temp = precision(event.source.temperature, 3);
         const r2Q = precision(event.source.rms.Quadratic, 3);
         const r2H = precision(event.source.rms.Hyperbolic, 3);
         const r2L = precision(event.source.rms.LeftTrend, 3);
-        const r2R = precision(event.source.rms.RightTrend,3);
+        const r2R = precision(event.source.rms.RightTrend, 3);
 
         extra =
-            <p>
+            <div>
+              <p/>
               <p>{`Filter: ${event.source.filter}`}</p>
               <p>{`Duration: ${duration}`}</p>
-              <p>{`Temp: ${event.source.temperature}`} &deg;C</p>
+              <p>{`Temp: ${temp}`} &deg;C</p>
               <p>{`Position: ${event.source.finalPosition}`}</p>
               <p>{`R2 Q/H/L/R: ${r2Q} / ${r2H} / ${r2L} / ${r2R}`}</p>
-            </p>;
+            </div>;
       }
 
       if (type.startsWith('IMAGE')) {
@@ -191,12 +195,13 @@ class EventTooltip extends React.Component {
         const thumbnailSrc = `${sessionPath}/thumbnails/${event.source.id}.jpg`;
 
         extra =
-            <p>
+            <div>
+              <p/>
               <p>{`Stars: ${stars}`}</p>
               <p>{`HFR: ${HFR}`}</p>
               <p/>
               <img src={`${thumbnailSrc}`} alt="thumbnail n/a"/>
-            </p>;
+            </div>;
       }
 
       return (

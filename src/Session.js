@@ -62,17 +62,17 @@ class Session extends React.Component {
       return null;
     }
 
-    consola.trace('Session: render: ' + sessionName);
-    consola.trace('session path: ' + sessionPath);
+    consola.trace(`session render: ${sessionName} version ${sessionHistory.sessionVersion}`);
 
-    const badge = sessionHistory.activeTargetId ? 'live' : false;
+    const badge = (sessionHistory.activeSession || sessionHistory.activeTargetId) ? 'live' : false;
+    const eventChartKey = `ec-${sessionHistory.id}`;
 
     return <div>
       <Badge content={badge}>
         <Message className="session-name">Session: {sessionDisplay}</Message>
       </Badge>
 
-      <EventChart sessionHistory={sessionHistory} sessionPath={sessionPath}/>
+      <EventChart key={eventChartKey} sessionHistory={sessionHistory} sessionPath={sessionPath}/>
 
       {sessionHistory.targets.map(target => (
           this.getTarget(target, sessionUpdatedKey, sessionPath)

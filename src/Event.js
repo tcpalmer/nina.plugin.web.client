@@ -21,23 +21,23 @@ export class Event {
   }
 
   static EVENT_TYPES = {
-    'UNKNOWN': {'name': 'Unknown', 'value': 0, 'color': '#888'},
-    'NINA': {'name': 'NINA', 'value': 1, 'color': '#fff'},
+    'UNKNOWN': {'name': 'Unknown', 'value': 0, 'color': '#888', 'marker': ''},
+    'NINA': {'name': 'NINA', 'value': 1, 'color': '#fff', 'marker': ''},
 
-    'MERIDIAN-FLIP': {'name': 'MF', 'value': 2, 'color': '#eee8aa'},
-    'AUTO-FOCUS': {'name': 'AF', 'value': 3, 'color': '#ffefd5'},
+    'MERIDIAN-FLIP': {'name': 'MF', 'value': 2, 'color': '#eee8aa', 'marker': 'MF'},
+    'AUTO-FOCUS': {'name': 'AF', 'value': 3, 'color': '#ffefd5', 'marker': 'AF'},
 
-    'IMAGE-OTHER': {'name': 'Other', 'value': 4, 'color': '#999'},
-    'IMAGE-NONE': {'name': 'None', 'value': 5, 'color': '#999'},
+    'IMAGE-OTHER': {'name': 'Other', 'value': 4, 'color': '#999', 'marker': 'Io'},
+    'IMAGE-NONE': {'name': 'None', 'value': 5, 'color': '#999', 'marker': 'In'},
 
-    'IMAGE-SII': {'name': 'SII', 'value': 6, 'color': '#daa520'},
-    'IMAGE-OIII': {'name': 'OIII', 'value': 7, 'color': '#6495ED'},
-    'IMAGE-HA': {'name': 'Ha', 'value': 8, 'color': '#8b0000'},
+    'IMAGE-SII': {'name': 'SII', 'value': 6, 'color': '#daa520', 'marker': 'S2'},
+    'IMAGE-OIII': {'name': 'OIII', 'value': 7, 'color': '#6495ED', 'marker': 'O3'},
+    'IMAGE-HA': {'name': 'Ha', 'value': 8, 'color': '#8b0000', 'marker': 'Ha'},
 
-    'IMAGE-B': {'name': 'B', 'value': 9, 'color': '#00d'},
-    'IMAGE-G': {'name': 'G', 'value': 10, 'color': '#0d0'},
-    'IMAGE-R': {'name': 'R', 'value': 11, 'color': '#d00'},
-    'IMAGE-L': {'name': 'L', 'value': 12, 'color': '#ddd'},
+    'IMAGE-B': {'name': 'B', 'value': 9, 'color': '#22b', 'marker': 'B'},
+    'IMAGE-G': {'name': 'G', 'value': 10, 'color': '#2b2', 'marker': 'G'},
+    'IMAGE-R': {'name': 'R', 'value': 11, 'color': '#b22', 'marker': 'R'},
+    'IMAGE-L': {'name': 'L', 'value': 12, 'color': '#bbb', 'marker': 'L'},
   };
 
   // Ordered list of event types - in bottom-up order for y axis plot
@@ -64,6 +64,11 @@ export class Event {
     events.push(...this.getGeneralEvents(sessionHistory));
     events.push(...this.getAutoFocusEvents(sessionHistory));
     events.push(...this.getImageEvents(sessionHistory));
+
+    // Sort by time
+    events.sort(function compare(e1, e2) {
+      return e1.time - e2.time;
+    });
 
     // Set the value (y axis) for the event chart
     for (const event of events) {
@@ -93,7 +98,7 @@ export class Event {
 
     if (autofocusList && autofocusList.length > 0) {
       for (const af of autofocusList) {
-        const autofocus = new Autofocus(af);
+        const autofocus = new Autofocus(af.raw);
         events.push(new Event(autofocus.id, 'AUTO-FOCUS', autofocus.autofocuser, autofocus.startTime, autofocus));
       }
     }
@@ -123,13 +128,13 @@ export class Event {
   static getType(hint) {
     switch (hint) {
       case 'NINA-START':
-        return {'type': 'NINA', 'subType': 'START'};
+        return {'type': 'NINA', 'subType': 'NINA Start'};
       case 'NINA-ADV-SEQ-START':
         return {'type': 'NINA', 'subType': 'Adv Seq Start'};
       case 'NINA-ADV-SEQ-STOP':
         return {'type': 'NINA', 'subType': 'Adv Seq Stop'};
       case 'NINA-STOP':
-        return {'type': 'NINA', 'subType': 'STOP'};
+        return {'type': 'NINA', 'subType': 'NINA Stop'};
       case 'NINA-PARK':
         return {'type': 'NINA', 'subType': 'Park'};
       case 'NINA-UNPARK':
@@ -200,13 +205,38 @@ export class Event {
 
   static getEventColor(type, subType) {
     if (type === 'NINA') {
-      if (subType === 'START') { return '#0d0'; }
-      if (subType === 'STOP') { return '#d00'; }
-      if (subType === 'Adv Seq Start') { return '#060'; }
-      if (subType === 'Adv Seq Stop') { return '#600'; }
+      if (subType === 'NINA Start') { return '#2b2'; }
+      if (subType === 'NINA Stop') { return '#b22'; }
+      if (subType === 'Adv Seq Start') { return '#292'; }
+      if (subType === 'Adv Seq Stop') { return '#922'; }
+      if (subType === 'Park') { return '#888'; }
+      if (subType === 'Unpark') { return '#888'; }
+      if (subType === 'Center') { return '#888'; }
+      if (subType === 'Slew') { return '#888'; }
+      if (subType === 'MF') { return '#888'; }
+      if (subType === 'Error: AF') { return '#da0'; }
+      if (subType === 'Error: Plate Solve') { return '#da0'; }
     }
 
     return Event.EVENT_TYPES[type].color;
+  }
+
+  static getEventMarker(type, subType) {
+    if (type === 'NINA') {
+      if (subType === 'NINA Start') { return 'N'; }
+      if (subType === 'NINA Stop') { return 'N'; }
+      if (subType === 'Adv Seq Start') { return 'S'; }
+      if (subType === 'Adv Seq Stop') { return 'E'; }
+      if (subType === 'Park') { return 'PK'; }
+      if (subType === 'Unpark') { return 'UP'; }
+      if (subType === 'Center') { return 'C'; }
+      if (subType === 'Slew') { return 'SL'; }
+      if (subType === 'MF') { return 'MF'; }
+      if (subType === 'Error: AF') { return 'EA'; }
+      if (subType === 'Error: Plate Solve') { return 'EP'; }
+    }
+
+    return Event.EVENT_TYPES[type].marker;
   }
 }
 
