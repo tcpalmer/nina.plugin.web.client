@@ -1,9 +1,10 @@
 import React from 'react';
 import {Brush, CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis} from 'recharts';
-import {DateTime, Duration} from 'luxon';
+import {DateTime} from 'luxon';
 import {Panel} from 'rsuite';
 import {Event} from './Event';
 import {formatDateTimeMS, precision} from './utilities/utils';
+import AutofocusChart from './AutofocusChart';
 
 const consola = require('consola');
 
@@ -125,12 +126,6 @@ class EventChart extends React.Component {
                 tickCount={domain.types.length}
                 tickFormatter={eventTickFormatter}
             />
-            <Brush
-                dataKey="time"
-                height={20} stroke="#444" fill="#888" travellerWidth={10}
-                tickFormatter={(time) => DateTime.fromMillis(time).toFormat('HH:mm:ss')}
-            />
-            <Tooltip content={<EventTooltip sessionPath={sessionPath}/>}/>
             <Scatter
                 id="id"
                 dataKey="time"
@@ -138,10 +133,15 @@ class EventChart extends React.Component {
                 shape={eventShape}
                 isAnimationActive={false}
             />
+            <Brush
+                dataKey="time"
+                height={20} stroke="#444" fill="#888" travellerWidth={10}
+                tickFormatter={(time) => DateTime.fromMillis(time).toFormat('HH:mm:ss')}
+            />
+            <Tooltip content={<EventTooltip sessionPath={sessionPath}/>}/>
           </ScatterChart>
 
         </ResponsiveContainer>
-
       </Panel>
     </div>;
   }
@@ -171,6 +171,13 @@ class EventTooltip extends React.Component {
 
       if (type === 'AUTO-FOCUS') {
 
+        return (
+            <div className="autofocus-tooltip">
+              <AutofocusChart autofocus={event.source}/>
+            </div>
+        );
+
+        /*
         const duration = Duration.fromMillis(event.source.duration).toFormat('mm:ss');
         const temp = precision(event.source.temperature, 3);
         const r2Q = precision(event.source.rms.Quadratic, 3);
@@ -187,6 +194,7 @@ class EventTooltip extends React.Component {
               <p>{`Position: ${event.source.finalPosition}`}</p>
               <p>{`R2 Q/H/L/R: ${r2Q} / ${r2H} / ${r2L} / ${r2R}`}</p>
             </div>;
+         */
       }
 
       if (type.startsWith('IMAGE')) {

@@ -3,8 +3,6 @@ import {Nav, Navbar, Panel} from 'rsuite';
 import {Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import {fixed, formatDateTimeISO, precision} from './utilities/utils';
 
-const consola = require('consola');
-
 class QualityChart extends React.Component {
 
   constructor(props) {
@@ -12,24 +10,33 @@ class QualityChart extends React.Component {
     this.state = {
       leftMetric: 'HFR',
       selectedFilter: 'All',
-      rightMetric: 'stars',
+      rightMetric: 'Stars',
     };
   }
 
-  /*
-      TODO:
-        - How well does mobile work?
-        - Dynamic height: for mobile widths, the plot is too compressed, need to reduce height and y axis ticks
-   */
-
   #metricNames = [
-    'index', 'fileName', 'started', 'filterName', 'detectedStars', 'HFR', 'ADUStDev', 'ADUMean', 'ADUMedian', 'ADUMin', 'ADUMax', 'ADUMAD',
+    'index', 'fileName', 'started', 'filterName', 'detectedStars', 'HFR', 'FocuserTemperature', 'WeatherTemperature', 'ADUStDev', 'ADUMean', 'ADUMedian', 'ADUMin', 'ADUMax', 'ADUMAD',
     'GuidingRMS', 'GuidingRMSArcSec', 'GuidingRMSRA', 'GuidingRMSRAArcSec', 'GuidingRMSDEC', 'GuidingRMSDECArcSec'];
   #displayMetricNames = [
-    'index', 'file', 'started', 'filter', 'stars', 'HFR', 'ADU StdDev', 'ADU Mean', 'ADU Median', 'ADU Min', 'ADU Max', 'ADU MAD',
+    'index', 'file', 'started', 'filter', 'Stars', 'HFR', 'Focuser Temp', 'Weather Temp', 'ADU StdDev', 'ADU Mean', 'ADU Median', 'ADU Min', 'ADU Max', 'ADU MAD',
     'RMS', 'RMS ArcSec', 'RMS RA', 'RMS RA ArcSec', 'RMS DEC', 'RMS DEC ArcSec'];
   #selectableMetricNames = [
-    'stars', 'HFR', 'ADU StdDev', 'ADU Mean', 'ADU Median', 'ADU Min', 'ADU Max', 'ADU MAD', 'RMS', 'RMS ArcSec', 'RMS RA', 'RMS RA ArcSec', 'RMS DEC', 'RMS DEC ArcSec',
+    'Stars',
+    'HFR',
+    'Focuser Temp',
+    'Weather Temp',
+    'ADU StdDev',
+    'ADU Mean',
+    'ADU Median',
+    'ADU Min',
+    'ADU Max',
+    'ADU MAD',
+    'RMS',
+    'RMS ArcSec',
+    'RMS RA',
+    'RMS RA ArcSec',
+    'RMS DEC',
+    'RMS DEC ArcSec',
   ];
 
   chartPrep(imageRecords) {
@@ -83,9 +90,6 @@ class QualityChart extends React.Component {
         summary[metric].max = summary[metric].min;
     }
 
-    //consola.trace('chart prep summary:');
-    //consola.trace(summary);
-
     return {'summary': summary, 'filters': filters, 'data': data};
   }
 
@@ -115,8 +119,6 @@ class QualityChart extends React.Component {
     // The plot dropdowns will only contain metrics that have a non-zero range
     let metricDropdown = Object.keys(summary).filter(metric => summary[metric].range > 0);
     metricDropdown.unshift('None');
-
-    // TODO: need style to shrink dropdowns?
 
     return <div>
       <Panel header="Quality Metrics" bordered bodyFill>

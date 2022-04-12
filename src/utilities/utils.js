@@ -13,6 +13,10 @@ function dtFormat(dt) {
   return dt.toFormat('HH:mm:ss LL/dd/yyyy');
 }
 
+export function duration(duration) {
+  return DateTime.fromISO(duration).toFormat('m:ss');
+}
+
 export function precision(value, prec = 4) {
   return Number.parseFloat(value).toPrecision(prec);
 }

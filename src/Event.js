@@ -1,4 +1,3 @@
-import {Autofocus} from './utilities/Autofocus';
 import {DateTime} from 'luxon';
 
 const consola = require('consola');
@@ -34,10 +33,15 @@ export class Event {
     'IMAGE-OIII': {'name': 'OIII', 'value': 7, 'color': '#6495ED', 'marker': 'O3'},
     'IMAGE-HA': {'name': 'Ha', 'value': 8, 'color': '#8b0000', 'marker': 'Ha'},
 
-    'IMAGE-B': {'name': 'B', 'value': 9, 'color': '#22b', 'marker': 'B'},
-    'IMAGE-G': {'name': 'G', 'value': 10, 'color': '#2b2', 'marker': 'G'},
-    'IMAGE-R': {'name': 'R', 'value': 11, 'color': '#b22', 'marker': 'R'},
-    'IMAGE-L': {'name': 'L', 'value': 12, 'color': '#bbb', 'marker': 'L'},
+    'IMAGE-CLEAR': {'name': 'CLR', 'value': 9, 'color': '#bbb', 'marker': 'CL'},
+    'IMAGE-LENH': {'name': 'LEN', 'value': 10, 'color': '#bbb', 'marker': 'LE'},
+    'IMAGE-LPRO': {'name': 'LPR', 'value': 11, 'color': '#bbb', 'marker': 'LP'},
+    'IMAGE-LEXT': {'name': 'LEX', 'value': 12, 'color': '#bbb', 'marker': 'LX'},
+
+    'IMAGE-B': {'name': 'B', 'value': 13, 'color': '#22b', 'marker': 'B'},
+    'IMAGE-G': {'name': 'G', 'value': 14, 'color': '#2b2', 'marker': 'G'},
+    'IMAGE-R': {'name': 'R', 'value': 15, 'color': '#b22', 'marker': 'R'},
+    'IMAGE-L': {'name': 'L', 'value': 16, 'color': '#bbb', 'marker': 'L'},
   };
 
   // Ordered list of event types - in bottom-up order for y axis plot
@@ -51,6 +55,10 @@ export class Event {
     'IMAGE-SII',
     'IMAGE-OIII',
     'IMAGE-HA',
+    'IMAGE-CLEAR',
+    'IMAGE-LENH',
+    'IMAGE-LPRO',
+    'IMAGE-LEXT',
     'IMAGE-B',
     'IMAGE-G',
     'IMAGE-R',
@@ -98,8 +106,8 @@ export class Event {
 
     if (autofocusList && autofocusList.length > 0) {
       for (const af of autofocusList) {
-        const autofocus = new Autofocus(af.raw);
-        events.push(new Event(autofocus.id, 'AUTO-FOCUS', autofocus.autofocuser, autofocus.startTime, autofocus));
+        const time = DateTime.fromISO(af.raw.Timestamp).toMillis();
+        events.push(new Event(af.raw.id, 'AUTO-FOCUS', af.raw.autofocuser, time, af.raw));
       }
     }
 
@@ -189,11 +197,27 @@ export class Event {
       return {'type': 'IMAGE-SII', 'subType': 'SII'};
     }
 
+    if (this.filterMatch(filter, ['lextreme', 'lextrm', 'lext', 'extreme', 'extrm'])) {
+      return {'type': 'IMAGE-LEXT', 'subType': 'LXT'};
+    }
+
+    if (this.filterMatch(filter, ['lpro'])) {
+      return {'type': 'IMAGE-LPRO', 'subType': 'LPRO'};
+    }
+
+    if (this.filterMatch(filter, ['lenhance', 'len'])) {
+      return {'type': 'IMAGE-LENH', 'subType': 'LEN'};
+    }
+
+    if (this.filterMatch(filter, ['clear', 'clr', 'lclear', 'lclr'])) {
+      return {'type': 'IMAGE-CLEAR', 'subType': 'CLR'};
+    }
+
     return {'type': 'IMAGE-OTHER', 'subType': filter};
   }
 
   static filterMatch(name, alternates) {
-    const cmp = name.toLowerCase();
+    const cmp = name.toLowerCase().replace(/[_\- ]/g, '');
     for (const alt of alternates) {
       if (cmp === alt) {
         return true;
