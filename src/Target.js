@@ -3,6 +3,7 @@ import ImageTable from './ImageTable';
 import {getImageRecords, getThumbnailSize} from './utilities/sessionUtils';
 import {Panel} from 'rsuite';
 import PlaceholderWrapper from './utilities/wrappers';
+import QualityChart from './QualityChart';
 
 const consola = require('consola');
 
@@ -73,9 +74,8 @@ class Target extends React.Component {
 
     return <Panel header={'Target: ' + target.name} collapsible bordered defaultExpanded={active}>
       <PlaceholderWrapper enabled={!ready}/>
-      {ready &&
-      <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize} imageClick={imageClick}/>
-      }
+      {ready && <QualityChart target={target}/>}
+      {ready && <ImageTable sessionPath={sessionPath} rows={rows} size={displaySize} imageClick={imageClick}/>}
     </Panel>;
   }
 }

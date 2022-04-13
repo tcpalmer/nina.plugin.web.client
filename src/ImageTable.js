@@ -21,7 +21,7 @@ class ImageTable extends React.Component {
     const {sortColumn, sortType} = this.state;
     const {rows} = this.props;
 
-    consola.trace('ImageTable: getSortedRows: ' + rows.length + ' rows');
+    //consola.trace('ImageTable: getSortedRows: ' + rows.length + ' rows');
 
     if (sortColumn && sortType) {
       return rows.sort((a, b) => {
@@ -53,7 +53,7 @@ class ImageTable extends React.Component {
     const {sessionPath, rows, size, imageClick} = this.props;
     const loaded = rows && rows.length > 0;
 
-    consola.trace('ImageTable: render, row/col: ' + JSON.stringify(size));
+    //consola.trace('ImageTable: render, row/col: ' + JSON.stringify(size));
 
     return <Panel header="Acquired Images" bordered bodyFill>
       <PlaceholderWrapper enabled={!loaded}/>

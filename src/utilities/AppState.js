@@ -54,7 +54,7 @@ export class AppState {
 
     if (!response.cacheUsed) {
       consola.success('loaded fresh session list: ' + this.#sessionListUrl);
-      consola.trace(response.data);
+      //consola.trace(response.data);
       this.#sessionListChanged({data: response.data, url: this.#sessionListUrl, error: false});
       return;
     }
@@ -72,14 +72,14 @@ export class AppState {
 
     if (!response.cacheUsed) {
       consola.success('loaded fresh session history: ' + this.#sessionHistoryUrl);
-      consola.trace(response.data);
+      //consola.trace(response.data);
       const sessionHistory = response.data;
 
-      if (sessionHistory.activeTargetId) {
-        consola.trace('session has an active target, reload enabled');
+      if (sessionHistory.activeSession || sessionHistory.activeTargetId) {
+        consola.trace('session is active, reload enabled');
         this.#sessionHistoryLoader.setLoadInterval(10);
       } else {
-        consola.trace('session does not have an active target, reload disabled');
+        consola.trace('session is not active, reload disabled');
       }
 
       this.#sessionHistoryChanged({data: sessionHistory, url: this.#sessionHistoryUrl, error: false});

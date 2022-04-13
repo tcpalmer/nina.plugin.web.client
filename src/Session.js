@@ -5,6 +5,7 @@ import {Api1020} from './utilities/Api1020';
 import ImageViewer from './ImageViewer';
 import AlertModalWrapper from './utilities/AlertModal';
 import {SettingsManager} from './utilities/SettingsManager';
+import EventChart from './EventChart';
 
 const consola = require('consola');
 
@@ -61,18 +62,21 @@ class Session extends React.Component {
       return null;
     }
 
-    consola.trace('Session: render: ' + sessionName);
+    consola.trace(`session render: ${sessionName} version ${sessionHistory.sessionVersion}`);
 
-    const badge = sessionHistory.activeTargetId ? 'live' : false;
+    const badge = (sessionHistory.activeSession || sessionHistory.activeTargetId) ? 'live' : false;
+    const eventChartKey = `ec-${sessionHistory.id}`;
 
     return <div>
       <Badge content={badge}>
         <Message className="session-name">Session: {sessionDisplay}</Message>
       </Badge>
 
+      <EventChart key={eventChartKey} sessionHistory={sessionHistory} sessionPath={sessionPath}/>
+
       {sessionHistory.targets.map(target => (
           this.getTarget(target, sessionUpdatedKey, sessionPath)
-        ))}
+      ))}
 
       {imageViewerOpen &&
       <ImageViewer imageRecord={imageRecord} imageSrc={imageSrc} onClose={this.closeImageViewer}/>
