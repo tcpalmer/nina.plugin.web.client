@@ -15,19 +15,58 @@ const HelpContent = () => {
         <h2>Basic Usage</h2>
         <p>
           Use the Sessions menu to select a session to view. By default, it will show any previous sessions still available on the NINA computer.
-          If you're imaging in the current NINA run, a new session will appear in the list a few seconds after the first acquired image has been saved.
+          If you're imaging in the current NINA run, a new session will appear in the list a few seconds after the Web plugin is enabled.
           Select any session to open it for viewing.
           <ul>
-            <li>Each imaging target associated with the session will appear in a collapsible panel.</li>
+            <li>A timeline of NINA events will be shown at the top - see below for details.</li>
+            <li>Each imaging target associated with the session will appear in a collapsible panel (after the first image is saved).</li>
             <li>The first target associated with the 'live' session will be expanded by default.</li>
-            <li>Each target panel will contain a table of the images acquired.</li>
+            <li>Each target panel will contain a plot of quality metrics for all images for that target - see below.</li>
+            <li>Each target panel will also show a table of the images acquired.</li>
             <li>By default, the image table is sorted so that more recent images are shown first. But you can click various columns to
               change the sort column and direction.
             </li>
+            <li>If the session is active, new events will appear in the Event Timeline a few seconds after they occur in NINA.</li>
             <li>If the session/target are live, new images will automatically appear in the table (it checks every 10 seconds). Keep the table
               sorted by ID descending to see the most recent at the top.
             </li>
             <li>Clicking a thumbnail in the table opens the image viewer - see below.</li>
+          </ul>
+        </p>
+
+        <h2>Event Timeline</h2>
+        <p>
+          The event timeline will show various events that occurred throughout the session: NINA start/stop, sequence start/stop, autofocus, meridian
+          flip, mount unpark/park, etc. In addition, each saved image will also be shown, grouped by filter.
+        </p>
+        <p>
+          Controls:
+          <ul>
+            <li>If you hover over an event marker (or press on touch-enabled devices), additional details will be displayed:</li>
+            <ul>
+              <li>Images: filter, save time, stars/HFR and a thumbnail</li>
+              <li>Autofocus: plot of the AF curve and additional details</li>
+              <li>Other: type of event and time of occurrence</li>
+            </ul>
+            <li>The scroll bar below the plot lets you zoom into time spans of interest: simply slide the left and right travellers to the desired
+              locations. Be aware that the scroll will reset to min/max if new data arrives and impacts the plot.
+            </li>
+          </ul>
+        </p>
+
+        <h2>Quality Metrics Plot</h2>
+        <p>
+          Each target displays a plot of image quality metrics above the table of images. This is very similar to the NINA HFR History plot in
+          the NINA Imaging tab where you can select metrics to display on the left and right Y axes.
+        </p>
+        <p>
+          Controls:
+          <ul>
+            <li>Hover over a data point (or press on touch-enabled devices), to show additional details</li>
+            <li>Select the desired metrics from the Left Side and Right Side dropdowns.  Note that if a metric wasn't available or didn't vary for your
+              session, it won't be shown.</li>
+            <li>If multiple filters were used on the target, you can filter the plot by the imaging filter.</li>
+            <li>The scroll bar below the plot behaves the same as the one for the Event Timeline.</li>
           </ul>
         </p>
 
