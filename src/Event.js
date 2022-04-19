@@ -147,6 +147,12 @@ export class Event {
         return {'type': 'NINA', 'subType': 'Park'};
       case 'NINA-UNPARK':
         return {'type': 'NINA', 'subType': 'Unpark'};
+      case 'NINA-DOME-SHUTTER-OPENED':
+        return {'type': 'NINA', 'subType': 'Dome Shutter Opened'};
+      case 'NINA-DOME-SHUTTER-CLOSED':
+        return {'type': 'NINA', 'subType': 'Dome Shutter Closed'};
+      case 'NINA-DOME-STOPPED':
+        return {'type': 'NINA', 'subType': 'Dome Stopped'};
       case 'NINA-CENTER':
         return {'type': 'NINA', 'subType': 'Center'};
       case 'NINA-SLEW':
@@ -235,6 +241,9 @@ export class Event {
       if (subType === 'Adv Seq Stop') { return '#922'; }
       if (subType === 'Park') { return '#888'; }
       if (subType === 'Unpark') { return '#888'; }
+      if (subType === 'Dome Shutter Opened') { return '#888'; }
+      if (subType === 'Dome Shutter Closed') { return '#888'; }
+      if (subType === 'Dome Stopped') { return '#922'; }
       if (subType === 'Center') { return '#888'; }
       if (subType === 'Slew') { return '#888'; }
       if (subType === 'MF') { return '#888'; }
@@ -253,6 +262,9 @@ export class Event {
       if (subType === 'Adv Seq Stop') { return 'E'; }
       if (subType === 'Park') { return 'PK'; }
       if (subType === 'Unpark') { return 'UP'; }
+      if (subType === 'Dome Shutter Opened') { return 'DO'; }
+      if (subType === 'Dome Shutter Closed') { return 'DC'; }
+      if (subType === 'Dome Stopped') { return 'DS'; }
       if (subType === 'Center') { return 'C'; }
       if (subType === 'Slew') { return 'SL'; }
       if (subType === 'MF') { return 'MF'; }
