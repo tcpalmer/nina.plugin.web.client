@@ -1,7 +1,8 @@
 # NINA Web Client
 
-## 1.1.X.X - 2022-0X-XX
+## 1.1.0.1 - 2022-04-20
 * Added dome events to timeline
+* Bug fix: better evaluation and handling of AF trend lines
 
 ## 1.1.0.0 - 2022-04-14
 * Added timeline plot of NINA events including all images saved, AF, MF, and more
