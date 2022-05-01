@@ -6,8 +6,6 @@ import {Event} from './Event';
 import {formatDateTimeMS, precision} from './utilities/utils';
 import AutofocusChart from './AutofocusChart';
 
-const consola = require('consola');
-
 class EventChart extends React.Component {
 
   constructor(props) {
@@ -170,31 +168,11 @@ class EventTooltip extends React.Component {
       }
 
       if (type === 'AUTO-FOCUS') {
-
         return (
             <div className="autofocus-tooltip">
               <AutofocusChart autofocus={event.source}/>
             </div>
         );
-
-        /*
-        const duration = Duration.fromMillis(event.source.duration).toFormat('mm:ss');
-        const temp = precision(event.source.temperature, 3);
-        const r2Q = precision(event.source.rms.Quadratic, 3);
-        const r2H = precision(event.source.rms.Hyperbolic, 3);
-        const r2L = precision(event.source.rms.LeftTrend, 3);
-        const r2R = precision(event.source.rms.RightTrend, 3);
-
-        extra =
-            <div>
-              <p/>
-              <p>{`Filter: ${event.source.filter}`}</p>
-              <p>{`Duration: ${duration}`}</p>
-              <p>{`Temp: ${temp}`} &deg;C</p>
-              <p>{`Position: ${event.source.finalPosition}`}</p>
-              <p>{`R2 Q/H/L/R: ${r2Q} / ${r2H} / ${r2L} / ${r2R}`}</p>
-            </div>;
-         */
       }
 
       if (type.startsWith('IMAGE')) {
@@ -212,6 +190,11 @@ class EventTooltip extends React.Component {
             </div>;
       }
 
+      if (type === 'NINA' && event.subType === 'Center') {
+        const coords = event.source.extra.replace('Coordinates ', '');
+        extra = <p>{`${coords}`}</p>;
+      }
+
       return (
           <div className="chart-tooltip">
             <p>{`Type: ${name}`}</p>
@@ -219,7 +202,6 @@ class EventTooltip extends React.Component {
             {extra}
           </div>
       );
-
     }
 
     return null;
