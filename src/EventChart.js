@@ -190,7 +190,7 @@ class EventTooltip extends React.Component {
             </div>;
       }
 
-      if (type === 'NINA' && event.subType === 'Center') {
+      if (type === 'NINA' && event.subType === 'Center' && event.source.extra) {
         const coords = event.source.extra.replace('Coordinates ', '');
         extra = <p>{`${coords}`}</p>;
       }

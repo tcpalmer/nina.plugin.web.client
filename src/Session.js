@@ -66,10 +66,14 @@ class Session extends React.Component {
 
     const badge = (sessionHistory.activeSession || sessionHistory.activeTargetId) ? 'live' : false;
     const eventChartKey = `ec-${sessionHistory.id}`;
+    const profileName = sessionHistory.profileName;
 
     return <div>
       <Badge content={badge}>
-        <Message className="session-name">Session: {sessionDisplay}</Message>
+        <Message className="session-name">
+          <div>Session: {sessionDisplay}</div>
+          <div className="profile-name">{profileName}</div>
+        </Message>
       </Badge>
 
       <EventChart key={eventChartKey} sessionHistory={sessionHistory} sessionPath={sessionPath}/>
