@@ -1,6 +1,7 @@
 import React from 'react';
 import Target from './Target';
 import {Badge, Message} from 'rsuite';
+import {sessionKeyToLocale} from './utilities/utils';
 import {Api1020} from './utilities/Api1020';
 import ImageViewer from './ImageViewer';
 import AlertModalWrapper from './utilities/AlertModal';
@@ -56,7 +57,7 @@ class Session extends React.Component {
 
   render() {
     const {imageViewerOpen, showAlert, alertMessage, imageRecord, imageSrc} = this.state;
-    const {sessionHistory, sessionName, sessionDisplay, sessionUpdatedKey, sessionPath} = this.props;
+    const {sessionHistory, sessionName, sessionUpdatedKey, sessionPath} = this.props;
 
     if (!sessionHistory) {
       return null;
@@ -71,7 +72,7 @@ class Session extends React.Component {
     return <div>
       <Badge content={badge}>
         <Message className="session-name">
-          <div>Session: {sessionDisplay}</div>
+          <div>Session: {sessionKeyToLocale(sessionName)}</div>
           <div className="profile-name">{profileName}</div>
         </Message>
       </Badge>

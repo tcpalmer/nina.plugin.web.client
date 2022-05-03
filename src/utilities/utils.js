@@ -4,11 +4,32 @@ export function formatDateTimeISO(dts) {
   return dtFormat(DateTime.fromISO(dts));
 }
 
+export function formatDateTimeISOToLocale(dts) {
+  return eventFormat(DateTime.fromISO(dts));
+}
+
 export function formatDateTimeMS(dts) {
   return dtFormat(DateTime.fromMillis(dts));
 }
 
-// TODO: need to test and see if locale is being properly handled
+export function formatDateTimeMSToLocale(dts) {
+  return eventFormat(DateTime.fromMillis(dts));
+}
+
+export function sessionKeyToLocale(key) {
+  // Session keys are: yyyyMMdd-HHmmss
+  const date = key.substring(0, key.indexOf('-'));
+  const time = key.substring(key.indexOf('-') + 1);
+  const dateDT = DateTime.fromFormat(date, 'yyyyMMdd');
+  const timeDT = DateTime.fromFormat(time, 'HHmmss');
+
+  return dateDT.toLocaleString(DateTime.DATE_FULL) + ' ' + timeDT.toFormat('HH:mm:ss');
+}
+
+function eventFormat(dt) {
+  return dt.toFormat('HH:mm:ss') + ' ' + dt.toLocaleString(DateTime.DATE_SHORT);
+}
+
 function dtFormat(dt) {
   return dt.toFormat('HH:mm:ss LL/dd/yyyy');
 }

@@ -3,7 +3,7 @@ import {Brush, CartesianGrid, ResponsiveContainer, Scatter, ScatterChart, Toolti
 import {DateTime} from 'luxon';
 import {Panel} from 'rsuite';
 import {Event} from './Event';
-import {formatDateTimeMS, precision} from './utilities/utils';
+import {formatDateTimeMSToLocale, precision} from './utilities/utils';
 import AutofocusChart from './AutofocusChart';
 
 class EventChart extends React.Component {
@@ -157,7 +157,7 @@ class EventTooltip extends React.Component {
 
     if (active && payload && payload.length) {
       const event = payload[0].payload;
-      const time = formatDateTimeMS(event.time);
+      const time = formatDateTimeMSToLocale(event.time);
 
       const type = event.type;
       let name = '';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {CartesianGrid, ComposedChart, ErrorBar, Line, ResponsiveContainer, Scatter, XAxis, YAxis} from 'recharts';
-import {duration, formatDateTimeISO, precision} from './utilities/utils';
+import {formatDateTimeISOToLocale, duration, precision} from './utilities/utils';
 import {evaluate} from 'mathjs';
 
 class AutofocusChart extends React.Component {
@@ -137,7 +137,7 @@ class AutofocusChart extends React.Component {
                     </tr>
                     <tr>
                       <td>Time</td>
-                      <td>{formatDateTimeISO(autofocus.Timestamp)}</td>
+                      <td>{formatDateTimeISOToLocale(autofocus.Timestamp)}</td>
                     </tr>
                     <tr>
                       <td>Duration</td>
