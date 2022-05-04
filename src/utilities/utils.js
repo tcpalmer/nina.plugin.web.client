@@ -8,9 +8,18 @@ export function formatDateTimeMS(dts) {
   return dtFormat(DateTime.fromMillis(dts));
 }
 
-// TODO: need to test and see if locale is being properly handled
+export function sessionKeyToISO(key) {
+  // Session keys are: yyyyMMdd-HHmmss
+  const date = key.substring(0, key.indexOf('-'));
+  const time = key.substring(key.indexOf('-') + 1);
+  const dateDT = DateTime.fromFormat(date, 'yyyyMMdd');
+  const timeDT = DateTime.fromFormat(time, 'HHmmss');
+
+  return dateDT.toFormat('yyyy-LL-dd') + ' ' + timeDT.toFormat('HH:mm:ss');
+}
+
 function dtFormat(dt) {
-  return dt.toFormat('HH:mm:ss LL/dd/yyyy');
+  return dt.toFormat('yyyy-LL-dd HH:mm:ss');
 }
 
 export function duration(duration) {

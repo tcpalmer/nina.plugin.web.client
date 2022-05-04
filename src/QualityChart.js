@@ -59,9 +59,9 @@ class QualityChart extends React.Component {
         if (displayName === 'started') {
           out[displayName] = formatDateTimeISO(value);
         } else if (displayName === 'HFR') {
-          out[displayName] = precision(value);
+          out[displayName] = Number(precision(value));
         } else if (displayName.startsWith('ADU')) {
-          out[displayName] = fixed(value);
+          out[displayName] = Number(fixed(value));
         } else {
           out[displayName] = value;
         }
@@ -113,6 +113,7 @@ class QualityChart extends React.Component {
     const summary = result.summary;
     const filters = result.filters;
     const data = result.data;
+    const filteredData = this.filterByFilter(selectedFilter, data);
 
     const key = `qc-${target.id}`;
 
@@ -148,11 +149,11 @@ class QualityChart extends React.Component {
         </Navbar>
 
         <ResponsiveContainer width="100%" height={450}>
-          <LineChart key={key} data={this.filterByFilter(selectedFilter, data)} margin={{top: 30, right: 10, left: 10, bottom: 20}}>
+          <LineChart key={key} data={filteredData} margin={{top: 30, right: 10, left: 10, bottom: 20}}>
             <CartesianGrid strokeDasharray="3 2" stroke={'#666'}/>
             <XAxis dataKey="index" tickCount={this.xAxisTicks()}/>
-            <YAxis yAxisId="left" tickCount={6} domain={['auto', 'auto']}/>
-            <YAxis yAxisId="right" tickCount={6} domain={['auto', 'auto']} orientation="right"/>
+            <YAxis type="number" yAxisId="left" tickCount={6} domain={['auto', 'auto']}/>
+            <YAxis type="number" yAxisId="right" tickCount={6} domain={['auto', 'auto']} orientation="right"/>
             <Brush dataKey="index" height={20} stroke="#444" fill="#888" travellerWidth={10}/>
             <Tooltip content={<QualityTooltip leftLabel={leftMetric} rightLabel={rightMetric}/>}/>
             <Legend/>

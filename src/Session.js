@@ -6,6 +6,7 @@ import ImageViewer from './ImageViewer';
 import AlertModalWrapper from './utilities/AlertModal';
 import {SettingsManager} from './utilities/SettingsManager';
 import EventChart from './EventChart';
+import {sessionKeyToISO} from './utilities/utils';
 
 const consola = require('consola');
 
@@ -56,7 +57,7 @@ class Session extends React.Component {
 
   render() {
     const {imageViewerOpen, showAlert, alertMessage, imageRecord, imageSrc} = this.state;
-    const {sessionHistory, sessionName, sessionDisplay, sessionUpdatedKey, sessionPath} = this.props;
+    const {sessionHistory, sessionName, sessionUpdatedKey, sessionPath} = this.props;
 
     if (!sessionHistory) {
       return null;
@@ -66,10 +67,14 @@ class Session extends React.Component {
 
     const badge = (sessionHistory.activeSession || sessionHistory.activeTargetId) ? 'live' : false;
     const eventChartKey = `ec-${sessionHistory.id}`;
+    const profileName = sessionHistory.profileName;
 
     return <div>
       <Badge content={badge}>
-        <Message className="session-name">Session: {sessionDisplay}</Message>
+        <Message className="session-name">
+          <div>Session: {sessionKeyToISO(sessionName)}</div>
+          <div className="profile-name">{profileName}</div>
+        </Message>
       </Badge>
 
       <EventChart key={eventChartKey} sessionHistory={sessionHistory} sessionPath={sessionPath}/>
