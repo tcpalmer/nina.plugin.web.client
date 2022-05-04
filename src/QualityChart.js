@@ -1,7 +1,7 @@
 import React from 'react';
 import {Nav, Navbar, Panel} from 'rsuite';
 import {Brush, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
-import {fixed, formatDateTimeISOToLocale, precision} from './utilities/utils';
+import {fixed, formatDateTimeISO, precision} from './utilities/utils';
 
 class QualityChart extends React.Component {
 
@@ -57,7 +57,7 @@ class QualityChart extends React.Component {
         const value = record[metric];
 
         if (displayName === 'started') {
-          out[displayName] = formatDateTimeISOToLocale(value);
+          out[displayName] = formatDateTimeISO(value);
         } else if (displayName === 'HFR') {
           out[displayName] = Number(precision(value));
         } else if (displayName.startsWith('ADU')) {

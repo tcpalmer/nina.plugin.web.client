@@ -2,7 +2,7 @@ import React from 'react';
 import {LogLevel} from 'consola';
 import {Container, Content, Divider, Header, Nav, Navbar} from 'rsuite';
 import {AppState} from './utilities/AppState';
-import {sessionKeyToLocale, formatDateTimeMS, formatDateTimeMSToLocale} from './utilities/utils';
+import {formatDateTimeISO, formatDateTimeMS} from './utilities/utils';
 import Cog from '@rsuite/icons/legacy/Cog';
 import AppModal from './utilities/AppModal';
 import HelpContent from './utilities/HelpContent';
@@ -86,7 +86,7 @@ class App extends React.Component {
   }
 
   addConsoleMessage(type, message) {
-    const date = formatDateTimeMSToLocale(new Date().getTime());
+    const date = formatDateTimeMS(new Date().getTime());
     const copy = [{type, date, message}, ...this.state.consoleMessages];
     this.setState({
       consoleMessages: copy,
@@ -116,7 +116,7 @@ class App extends React.Component {
 
   render() {
     consola.trace('App: render');
-    const {sessionList, sessionHistory, selectedSession, sessionUpdatedKey, consoleMessages, consoleButtonClass} = this.state;
+    const {sessionList, sessionHistory, selectedSession, selectedSessionDisplay, sessionUpdatedKey, consoleMessages, consoleButtonClass} = this.state;
     const {showSettings, showConsole, showHelp} = this.state;
     const sessionPath = '/sessions/' + selectedSession;
 
@@ -131,7 +131,7 @@ class App extends React.Component {
               <Nav>
                 <Nav.Dropdown title="Sessions" activeKey={selectedSession} onSelect={this.selectSession}>
                   {sessionList.map(session => (
-                      <Nav.Dropdown.Item eventKey={session.key} key={session.key}>{sessionKeyToLocale(session.key)}</Nav.Dropdown.Item>
+                      <Nav.Dropdown.Item eventKey={session.key} key={session.key}>{session.display}</Nav.Dropdown.Item>
                   ))}
                 </Nav.Dropdown>
               </Nav>
@@ -149,6 +149,7 @@ class App extends React.Component {
             <Session key={sessionHistory?.id}
                      sessionHistory={sessionHistory}
                      sessionName={selectedSession}
+                     sessionDisplay={selectedSessionDisplay}
                      sessionUpdatedKey={sessionUpdatedKey}
                      sessionPath={sessionPath}
             />
