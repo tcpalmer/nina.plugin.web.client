@@ -1,6 +1,6 @@
 # NINA Web Client
 
-## 1.1.2.0 - 2022-05-XX
+## 1.1.2.0 - 2022-05-04
 * changed date displays to ISO
 * fixed issue with domain of Y axis in quality chart
 * added display of profile name
