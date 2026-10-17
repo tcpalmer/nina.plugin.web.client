@@ -11,3 +11,4 @@ yarn.lock
 /camouflage.log
 dist.zip
 test/webroot
+dist-*.zip
