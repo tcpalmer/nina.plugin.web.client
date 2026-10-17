@@ -29,7 +29,7 @@ module.exports = {
         {
           from: paths.src + '/assets', to: 'assets',
           globOptions: {
-            ignore: ['*.DS_Store'],
+            ignore: ['**/*.DS_Store', '**/*.psd'],
           },
         },
       ],

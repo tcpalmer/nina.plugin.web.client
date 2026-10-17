@@ -8,12 +8,13 @@ Browser client (React 17 class components, rsuite UI, recharts) for the NINA.Plu
 
 ## Commands
 
-Uses yarn scripts (a `yarn.lock` and `package-lock.json` both exist).
+npm scripts; `package-lock.json` is committed. Node version is pinned in `.nvmrc`.
 
-- `yarn start` — runs `startDevServer.sh`: starts `superstatic` (port 9001, serves `test/webroot` session JSON), `camouflage` (port 9002, mock API from `test/mockapi/config.yml`), and webpack dev server (port 9000). `superstatic` and `camouflage` must be installed globally.
-- `yarn build` — production build to `dist/` (also zips to `nina-web-client.zip` via ZipPlugin); `yarn build-staging` uses `config/webpack.stag.js`.
-- `yarn test` — jest (jsdom). Single test: `yarn jest src/App.test.js -t "name"`. Note `src/App.test.js` is a placeholder that expects text that doesn't exist, so it fails.
-- `yarn lint` / `yarn lint-fix` — eslint on `src` then prettier write. A husky pre-commit hook runs `eslint --fix` via lint-staged.
+- `npm start` — runs `startDevServer.sh`: starts `superstatic` (port 9001, serves `test/webroot` session JSON), `camouflage` (port 9002, mock API from `test/mockapi/config.yml`), and webpack dev server (port 9000). `superstatic` and `camouflage` must be installed globally.
+- `npm run build` — production build to `dist/` (also zips to `nina-web-client.zip` via ZipPlugin; the prod bundle uses `publicPath: '/dist/'`, so serve it under `/dist/`); `npm run build-staging` uses `config/webpack.stag.js`.
+- `npm test` — jest (jsdom). Single test: `npx jest src/App.test.js -t "name"`. Note `src/App.test.js` is a placeholder that expects text that doesn't exist, so it fails.
+- `npm run lint` / `npm run lint-fix` — eslint on `src` then prettier write. A husky pre-commit hook runs `eslint --fix` via lint-staged.
+- `npm run release [-- --dry-run] [--draft] [--yes]` — `scripts/release.sh`: builds, zips `dist/` as `dist-{VERSION}.zip`, and creates GitHub release `v{VERSION}` with that asset and the matching `CHANGELOG.md` section as notes. VERSION is `dist/webClientVersion.json`; it must be strictly newer than the latest release and any existing `v*` tag. A real release requires master, a clean tree, and HEAD pushed. Add the CHANGELOG entry and bump `src/webClientVersion.json` first.
 
 ## Architecture
 
