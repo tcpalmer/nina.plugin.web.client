@@ -97,9 +97,9 @@ class QualityChart extends React.Component {
     return 10;
   }
 
-  selectLeftPlot = (eventKey) => { this.setState({leftMetric: eventKey}); };
-  selectFilter = (eventKey) => { this.setState({selectedFilter: eventKey}); };
-  selectRightPlot = (eventKey) => { this.setState({rightMetric: eventKey}); };
+  selectLeftPlot = (eventKey) => { if (eventKey) {this.setState({leftMetric: eventKey});} };
+  selectFilter = (eventKey) => { if (eventKey) {this.setState({selectedFilter: eventKey});} };
+  selectRightPlot = (eventKey) => { if (eventKey) {this.setState({rightMetric: eventKey});} };
 
   filterByFilter = (filter, data) => {
     return (filter === 'All') ? data : data.filter(item => item.filter === filter);
@@ -125,26 +125,26 @@ class QualityChart extends React.Component {
       <Panel header="Quality Metrics" bordered bodyFill>
 
         <Navbar>
-          <Nav>
-            <Nav.Dropdown title={'Left Side: ' + leftMetric} activeKey={leftMetric} onSelect={this.selectLeftPlot}>
+          <Nav activeKey={leftMetric} onSelect={this.selectLeftPlot}>
+            <Nav.Menu title={'Left Side: ' + leftMetric}>
               {metricDropdown.map(item => (
-                  <Nav.Dropdown.Item eventKey={item} key={item}>{item}</Nav.Dropdown.Item>
+                  <Nav.Item eventKey={item} key={item}>{item}</Nav.Item>
               ))}
-            </Nav.Dropdown>
+            </Nav.Menu>
           </Nav>
-          <Nav>
-            <Nav.Dropdown title={'Filter: ' + selectedFilter} activeKey={selectedFilter} onSelect={this.selectFilter}>
+          <Nav activeKey={selectedFilter} onSelect={this.selectFilter}>
+            <Nav.Menu title={'Filter: ' + selectedFilter}>
               {filters.map(item => (
-                  <Nav.Dropdown.Item eventKey={item} key={item}>{item}</Nav.Dropdown.Item>
+                  <Nav.Item eventKey={item} key={item}>{item}</Nav.Item>
               ))}
-            </Nav.Dropdown>
+            </Nav.Menu>
           </Nav>
-          <Nav>
-            <Nav.Dropdown title={'Right Side: ' + rightMetric} activeKey={rightMetric} onSelect={this.selectRightPlot}>
+          <Nav activeKey={rightMetric} onSelect={this.selectRightPlot}>
+            <Nav.Menu title={'Right Side: ' + rightMetric}>
               {metricDropdown.map(item => (
-                  <Nav.Dropdown.Item eventKey={item} key={item}>{item}</Nav.Dropdown.Item>
+                  <Nav.Item eventKey={item} key={item}>{item}</Nav.Item>
               ))}
-            </Nav.Dropdown>
+            </Nav.Menu>
           </Nav>
         </Navbar>
 
