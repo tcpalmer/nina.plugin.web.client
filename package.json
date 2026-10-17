@@ -15,7 +15,6 @@
   "dependencies": {
     "@rsuite/icons": "^1.0.2",
     "consola": "^2.15.3",
-    "json-mock-api": "^1.2.2",
     "luxon": "^2.3.1",
     "mathjs": "^10.5.0",
     "react": "^17.0.2",
@@ -33,15 +32,15 @@
     "start": "./startDevServer.sh",
     "build": "NODE_ENV=production webpack --config config/webpack.prod.js",
     "build-staging": "NODE_ENV=production webpack --config config/webpack.stag.js",
-    "prettify": "yarn prettier \"**/*.*(js|jsx)\" --ignore-path=.prettierignore --write",
-    "lint": "eslint src --ext .js,.jsx && yarn prettify",
-    "lint-fix": "eslint src --ext .js,.jsx --fix && yarn prettify",
+    "prettify": "npx prettier \"**/*.*(js|jsx)\" --ignore-path=.prettierignore --write",
+    "lint": "eslint src --ext .js,.jsx && npm run prettify",
+    "lint-fix": "eslint src --ext .js,.jsx --fix && npm run prettify",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint-staged --verbose"
+      "pre-commit": "npx lint-staged --verbose"
     }
   },
   "lint-staged": {
@@ -67,13 +66,11 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "autoprefixer": "^10.3.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "*",
     "copy-webpack-plugin": "^9.1.0",
-    "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
     "css-minimizer-webpack-plugin": "^3.0.2",
     "dotenv-webpack": "^7.0.3",
@@ -92,13 +89,8 @@
     "less-loader": "^10.2.0",
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.2.0",
-    "node-sass": "^6.0.1",
-    "postcss": "^8.3.6",
-    "postcss-import": "^14.0.2",
-    "postcss-loader": "^6.1.1",
     "prettier": "^2.3.2",
     "react-refresh": "^0.9.0",
-    "sass-loader": "^12.1.0",
     "style-loader": "^3.2.1",
     "terser-webpack-plugin": "^5.1.4",
     "webpack": "^5.49.0",
