@@ -95,6 +95,8 @@ class App extends React.Component {
   }
 
   selectSession = (eventKey) => {
+    // the dropdown toggle also fires onSelect, without a key
+    if (!eventKey) {return;}
     consola.debug('selected session: ' + eventKey);
     if (this.state.selectedSession !== eventKey) {
       this.setState({
@@ -128,12 +130,12 @@ class App extends React.Component {
             <Navbar>
               <Nav> <Nav.Item><img src={logo} width={30} height={30} alt="NINA"/></Nav.Item> </Nav>
 
-              <Nav>
-                <Nav.Dropdown title="Sessions" activeKey={selectedSession} onSelect={this.selectSession}>
+              <Nav activeKey={selectedSession} onSelect={this.selectSession}>
+                <Nav.Menu title="Sessions">
                   {sessionList.map(session => (
-                      <Nav.Dropdown.Item eventKey={session.key} key={session.key}>{sessionKeyToISO(session.key)}</Nav.Dropdown.Item>
+                      <Nav.Item eventKey={session.key} key={session.key}>{sessionKeyToISO(session.key)}</Nav.Item>
                   ))}
-                </Nav.Dropdown>
+                </Nav.Menu>
               </Nav>
 
               <Nav> <Nav.Item onClick={this.openConsole} className={consoleButtonClass}>Console</Nav.Item> </Nav>
