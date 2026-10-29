@@ -35,7 +35,7 @@
     "prettify": "npx prettier \"**/*.*(js|jsx)\" --ignore-path=.prettierignore --write",
     "lint": "eslint src --ext .js,.jsx && npm run prettify",
     "lint-fix": "eslint src --ext .js,.jsx --fix && npm run prettify",
-    "release": "bash scripts/release.sh",
+    "release": "node scripts/release.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
