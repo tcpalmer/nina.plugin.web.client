@@ -1,5 +1,10 @@
 # NINA Web Client
 
+## 2.3.1.0 - 2026-10-29
+* Clean up
+
+...
+
 ## 1.1.2.0 - 2022-05-04
 * changed date displays to ISO
 * fixed issue with domain of Y axis in quality chart

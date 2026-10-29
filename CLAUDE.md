@@ -10,7 +10,7 @@ Browser client (React 17 class components, rsuite UI, recharts) for the NINA.Plu
 
 npm scripts; `package-lock.json` is committed. Node version is pinned in `.nvmrc`.
 
-- `npm start` — runs `startDevServer.sh`: starts `superstatic` (port 9001, serves `test/webroot` session JSON), `camouflage` (port 9002, mock API from `test/mockapi/config.yml`), and webpack dev server (port 9000). `superstatic` and `camouflage` must be installed globally.
+- `npm start` — runs `scripts/startDevServer.js` (cross-platform; Ctrl+C or any server exiting stops all three): starts `superstatic` (port 9001, serves `test/webroot` session JSON), the mock API `test/mockapi/server.js` (port 9002), and webpack dev server (port 9000). `superstatic` must be installed globally.
 - `npm run build` — production build to `dist/` (also zips to `nina-web-client.zip` via ZipPlugin; the prod bundle uses `publicPath: '/dist/'`, so serve it under `/dist/`); `npm run build-staging` uses `config/webpack.stag.js`.
 - `npm test` — jest (jsdom). Single test: `npx jest src/App.test.js -t "name"`. Note `src/App.test.js` is a placeholder that expects text that doesn't exist, so it fails.
 - `npm run lint` / `npm run lint-fix` — eslint on `src` then prettier write. A husky pre-commit hook runs `eslint --fix` via lint-staged.
@@ -23,6 +23,6 @@ npm scripts; `package-lock.json` is committed. Node version is pinned in `.nvmrc
 - `App.js` → `Session.js` → views (`EventChart`, `QualityChart`, `AutofocusChart`, `ImageTable`, `ImageViewer`, `Target`, `Event`). `sessionUtils.js` holds the derivation logic for session history data.
 - **Image API:** `utilities/Api1020.js` calls the plugin's REST API (`PUT /api/1020/image/create`) to generate stretched/scaled image previews using options from `SettingsManager`. "1020" is the API version.
 - **Settings** persist in `localStorage` via `SettingsManager`; settings reset when the stored version differs from `src/webClientVersion.json`. Bump that file (and `CHANGELOG.md`) for releases.
-- **Dev proxying:** webpack dev server proxies `/sessions` → 9001 and `/api` → 9002. Mock sessions live in `test/webroot/sessions/` (many untracked dirs there are local sample data); API mocks in `test/mockapi/mocks/api/1020/`.
+- **Dev proxying:** webpack dev server proxies `/sessions` → 9001 and `/api` → 9002. Mock sessions live in `test/webroot/sessions/` (many untracked dirs there are local sample data); API mock routes are in `test/mockapi/server.js`.
 - Logging uses `consola` (level Trace in `App.js`); user-facing messages go through the in-app `Console` component.
 - Code style: private class fields (`#x`), arrow-function class properties for callbacks; styles in `src/index.scss` and `src/custom.less`.
